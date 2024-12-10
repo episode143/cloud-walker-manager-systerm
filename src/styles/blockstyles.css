@@ -1,0 +1,253 @@
+/*管理页面传送头部卡片*/
+
+.transfer-header {
+  position: relative;
+  height: 156px;
+  width: 384px;
+  /* 自行调整颜色 */
+  /* background-color: #ff9f43; */
+  border-radius: 8px;
+}
+.transfer-header-field-1 {
+  position: absolute;
+  text-align: left;
+  top: 16px;
+  left: 20px;
+  height: 28px;
+  width: 120px;
+  font-size: 20px;
+  color: white;
+}
+.transfer-header-statistics-1 {
+  position: absolute;
+  text-align: left;
+  top: 65px;
+  left: 20px;
+  height: 32px;
+  width: 120px;
+  font-size: 26px;
+  color: white;
+}
+.transfer-header-field-2 {
+  position: absolute;
+  top: 82px;
+  left: 255px;
+  height: 32px;
+  width: 120px;
+  font-size: 20px;
+  font-weight: 350;
+  color: white;
+}
+.transfer-header-button {
+  position: absolute;
+  top: 30px;
+  left: 288px;
+  height: 56px;
+  width: 56px;
+  /* 自行调整颜色 */
+  /* background-color: rgba(217, 0, 27, 0.32); */
+  border-radius: 28px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.transfer-header-button:hover {
+  top: 32px;
+  left: 290px;
+  height: 52px;
+  width: 52px;
+  border-radius: 26px;
+}
+.transfer-header-button .iconfont {
+  color: white;
+  font-size: 32px;
+}
+.transfer-header-button:hover .iconfont {
+  color: #02a7f0;
+  font-size: 29px;
+}
+
+/*头部筛选器*/
+
+.filtrate-header {
+  position: relative;
+  height: 155px;
+  width: 785px;
+  background-color: white;
+  border-radius: 8px;
+}
+.filtrate-header-field-1 {
+  position: absolute;
+  text-align: left;
+  top: 14px;
+  left: 35px;
+  font-size: 20px;
+  font-weight: 350;
+}
+.filtrate-header-subfield-1 {
+  position: absolute;
+  text-align: left;
+  top: 54px;
+  left: 35px;
+  font-size: 16px;
+  font-weight: 350;
+}
+.filtrate-header-subfield-2 {
+  position: absolute;
+  text-align: left;
+  top: 54px;
+  left: 330px;
+  font-size: 16px;
+  font-weight: 350;
+}
+.filtrate-header-selector-1 {
+  position: absolute;
+  top: 92px;
+  left: 35px;
+  height: 37px;
+  width: 250px;
+  font-size: 16px;
+  font-weight: 350;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  border-color: rgba(0, 0, 0, 0.26);
+}
+.filtrate-header-selector-2 {
+  position: absolute;
+  top: 92px;
+  left: 330px;
+  height: 37px;
+  width: 250px;
+  font-size: 16px;
+  font-weight: 350;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+  border-color: rgba(0, 0, 0, 0.26);
+}
+.filtrate-header-button {
+  position: absolute;
+  top: 92px;
+  left: 625px;
+  height: 39px;
+  width: 120px;
+  background-color: #02a7f0;
+  border-width: 0px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+}
+
+/*dashboard的头部跳转卡片*/
+
+.dashboard-transfer-header-card {
+  position: relative;
+  height: 145px;
+  width: 383px;
+  border-radius: 8px;
+}
+.dashboard-transfer-header-card-field-1 {
+  position: absolute;
+  text-align: left;
+  left: 20px;
+  top: 8px;
+  height: 30px;
+  width: 200px;
+  font-size: 20px;
+  color: white;
+}
+.dashboard-transfer-header-card-statistics-1 {
+  position: absolute;
+  text-align: left;
+  left: 20px;
+  top: 70px;
+  font-size: 26px;
+  color: white;
+}
+.dashboard-transfer-header-card-field-change {
+  position: absolute;
+  text-align: left;
+  left: 100px;
+  top: 66px;
+  font-size: 26px;
+}
+.dashboard-transfer-header-card-statistics-2 {
+  position: absolute;
+  text-align: left;
+  left: 170px;
+  top: 70px;
+  font-size: 26px;
+  color: white;
+}
+.dashboard-transfer-header-card-field-today {
+  position: absolute;
+  text-align: left;
+  left: 300px;
+  top: 10px;
+  color: white;
+  font-size: 20px;
+}
+.dashboard-transfer-header-card-button {
+  position: absolute;
+  top: 70px;
+  left: 293px;
+  height: 56px;
+  width: 56px;
+  border-radius: 28px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dashboard-transfer-header-card-button .iconfont {
+  color: white;
+  font-size: 32px;
+}
+
+/*dashboard的侧边跳转卡片*/
+.dashboard-transfer-aside-card {
+  position: relative;
+  height: 124px;
+  width: 384px;
+  background-color: white;
+  border-radius: 8px;
+}
+.dashboard-transfer-aside-card-iconbox {
+  position: absolute;
+  top: 30px;
+  left: 34px;
+  height: 60px;
+  width: 60px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dashboard-transfer-aside-card-iconbox .iconfont {
+  color: white;
+  font-size: 50px;
+}
+.dashboard-transfer-aside-card-field-1 {
+  position: absolute;
+  text-align: left;
+  top: 16px;
+  left: 105px;
+  font-size: 20px;
+}
+.dashboard-transfer-aside-card-statictics-1 {
+  position: absolute;
+  text-align: left;
+  top: 55px;
+  left: 105px;
+  font-size: 20px;
+}
+.dashboard-transfer-aside-card-field-check {
+  position: absolute;
+  text-align: left;
+  top: 50px;
+  left: 265px;
+  font-size: 20px;
+}
