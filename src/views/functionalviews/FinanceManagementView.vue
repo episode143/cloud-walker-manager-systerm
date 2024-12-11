@@ -26,7 +26,7 @@
     </div>
     <div style="width: 1189px; height: 660px; margin-top: 30px">
       <div style="grid-area: robot-form" class="robot-form">
-        <el-table :data="currentPageData" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" row-style="height:56px;">
+        <el-table :data="currentPageData" ref="tableRef" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" row-style="height:56px;">
           <el-table-column prop="transactionId" label="流水单号" align="center"></el-table-column>
           <el-table-column prop="transactionTime" label="结算时间" align="center"></el-table-column>
           <el-table-column prop="transactionType" label="收入/支出" align="center"></el-table-column>
@@ -67,7 +67,7 @@
 import TransferCard from "../../components/TransferCard.vue";
 import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import api from "../../api/index";
-import { ref, onMounted } from "vue";
+import { ref, onMounted,onActivated, nextTick } from "vue";
 
 export default {
   components: {
@@ -75,6 +75,7 @@ export default {
     BreadCrumbs,
   },
   setup() {
+    const tableRef = ref(null);
     const totalProfit = ref("");
     const currentPage = ref(1);
     const pageSize = ref(10);
@@ -103,11 +104,11 @@ export default {
         label: "默认",
       },
       {
-        value: "按照金额排序",
+        value: "金额",
         label: "按照金额排序",
       },
       {
-        value: "按照时间排序",
+        value: "时间",
         label: "按照时间排序",
       },
     ]);
@@ -153,11 +154,19 @@ export default {
       getTransactionPageTable();
     };
     onMounted(() => {
-      console.log("获取总盈利额");
+      nextTick(() => {
+        tableRef.value.doLayout();
+      });
       getTotalProfit();
       getTransactionPageTable();
     });
+    onActivated(() => {
+      nextTick(() => {
+        tableRef.value?.doLayout();
+      });
+    });
     return {
+      tableRef,
       totalProfit,
       currentPageData,
       pageSize,

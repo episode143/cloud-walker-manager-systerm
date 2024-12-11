@@ -345,7 +345,6 @@ export default {
     const getRobotPartsInventory = async () => {
       try {
         const response = await api.getRobotPartsInventory();
-        console.log(response);
         if (response.code === 14031) {
           partsInventory.value = response.data.inventory;
           partsInventoryWaterLine.value.cameraNumber = response.data.waterLine[0];
@@ -368,12 +367,11 @@ export default {
           cameraNumber: partsInventoryWaterLine.value.cameraNumber,
           radarNumber: partsInventoryWaterLine.value.radarNumber,
           chassisNumber: partsInventoryWaterLine.value.chassisNumber,
-          electricalMachineryNumbe: partsInventoryWaterLine.value.electricalMachineryNumber,
+          electricalMachineryNumber: partsInventoryWaterLine.value.electricalMachineryNumber,
           processorNumber: partsInventoryWaterLine.value.processorNumber,
           routerNumber: partsInventoryWaterLine.value.routerNumber,
         };
         const response = await api.updatePartsWaterLine(params);
-        console.log(response);
         if (response.code === 14101) {
           ElNotification({
             title: "处理成功",
@@ -393,9 +391,7 @@ export default {
       try {
         showUploadDialog.value = false;
         const params = tableData.value;
-        console.log(params);
         const response = await api.getPartsWarehoused(params);
-        console.log(response);
         if (response.code === 14111) {
           ElNotification({
             title: "处理成功",

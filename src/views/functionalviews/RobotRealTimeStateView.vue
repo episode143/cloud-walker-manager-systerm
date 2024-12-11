@@ -14,7 +14,7 @@
       </div>
       <div class="first-sight-content">
         <div style="height: 96%; width: 96%;border-radius: 4px;border: 4px solid #409eff">
-          <img src="http://120.46.199.126/robot/video_stream" alt="机器人实时图像流" style="height: 100%; width: 100%; border-radius: 3px;" />
+          <img src="http://192.168.172.236:8000/robot/video_stream" alt="机器人实时图像流" style="height: 100%; width: 100%; border-radius: 3px;" />
         </div>
       </div>
 

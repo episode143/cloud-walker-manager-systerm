@@ -24,7 +24,7 @@
     </div>
     <div style="width: 1189px; height: 660px; margin-top: 30px">
       <div style="grid-area: robot-form" class="robot-form">
-        <el-table :data="currentPageData" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" :row-style="{ height: '56px' }">
+        <el-table :data="currentPageData" ref="tableRef" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" :row-style="{ height: '56px' }">
           <el-table-column prop="orderId" label="订单编号" align="center"></el-table-column>
           <el-table-column prop="orderTime" label="发起时间" align="center"></el-table-column>
           <el-table-column prop="expectedCompletionTime" label="预计完成时间" align="center"></el-table-column>
@@ -71,7 +71,7 @@
 import TransferCard from "../../components/TransferCard.vue";
 import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import api from "../../api/index";
-import { ref, onMounted } from "vue";
+import { ref, onMounted ,onActivated ,nextTick} from "vue";
 
 export default {
   components: {
@@ -79,6 +79,7 @@ export default {
     BreadCrumbs,
   },
   setup() {
+    const tableRef = ref(null);
     const totalOrderCount = ref("");
     const currentPage = ref(1);
     const pageSize = ref(10);
@@ -89,10 +90,6 @@ export default {
       {
         label: "用户名",
         value: "用户名",
-      },
-      {
-        label: "机器人号",
-        value: "机器人号",
       },
       {
         label: "订单号",
@@ -138,14 +135,21 @@ export default {
         console.error("获取当前订单列表失败", error);
       }
     };
-    //（内含模拟）
     onMounted(() => {
-      //console.log("获取总订单数");
+      nextTick(() => {
+        tableRef.value.doLayout();
+      });
       getTotalOrderCount();
       getCurrentOrderPageTable();
     });
+    onActivated(() => {
+      nextTick(() => {
+        tableRef.value?.doLayout();
+      });
+    });
     //返回
     return {
+      tableRef,
       totalOrderCount,
       currentPageData,
       pageSize,

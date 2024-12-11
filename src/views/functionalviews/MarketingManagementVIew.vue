@@ -28,7 +28,7 @@
     </div>
 
     <div style="width: 1189px; height: 650px; margin-top: 20px">
-      <el-table :data="currentPageData" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" row-style="height:77px;">
+      <el-table :data="currentPageData" ref="tableRef" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" row-style="height:77px;">
         <el-table-column prop="activityPicture" label="图片概览" align="center" width="150">
           <template #default="scope">
             <div class="image-container">
@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { onMounted, ref ,onActivated,nextTick} from "vue";
 import { useRouter } from "vue-router";
 import api from "../../api/index";
 import { ElNotification } from "element-plus";
@@ -120,6 +120,7 @@ import { base } from "../../api/path";
 import { format, subDays, subWeeks, subMonths, subYears } from 'date-fns';
 export default {
   setup() {
+    const tableRef = ref(null);
     const images = ref([
       { src: "1.jpg", alt: "营销活动1标题" },
       { src: "2.jpg", alt: "营销活动2标题" },
@@ -313,12 +314,19 @@ export default {
     };
 
     onMounted(() => {
-      //console.log("重新进入营销活动");
+      nextTick(() => {
+        tableRef.value.doLayout();
+      });
       getOnlineMarketingActivityList();
       getMarketingActivityPageTable();
     });
-
+    onActivated(() => {
+      nextTick(() => {
+        tableRef.value?.doLayout();
+      });
+    });
     return {
+      tableRef,
       images,
       currentPageData,
       currentPage,

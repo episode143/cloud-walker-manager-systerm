@@ -106,7 +106,7 @@ export default {
         const response = await api.getAverageDailyOrderCycle();
         console.log(response);
         if (response.code === 12031) {
-          data.value = response.data.map(item => [item.time,item.value]);//映射方式
+          data.value = response.data.map((item) => [item.name+":00", item.value]); //映射方式
         } else {
           console.error("订单日均周期变化请求失败", response.msg);
         }
@@ -115,9 +115,9 @@ export default {
       }
     };
 
-    onMounted(()=>{
+    onMounted(() => {
       getgetAverageDailyOrderCycle();
-    })
+    });
     return {
       option,
     };

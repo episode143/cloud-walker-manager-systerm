@@ -26,7 +26,7 @@
     </div>
     <div style="width: 1189px; height: 660px; margin-top: 30px">
       <div style="grid-area: robot-form" class="robot-form">
-        <el-table :data="currentPageData" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" :row-style="{ height: '56px' }">
+        <el-table :data="currentPageData" ref="tableRef" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" :row-style="{ height: '56px' }">
           <el-table-column prop="stationName" label="站点名称" align="center"></el-table-column>
           <el-table-column prop="stationPosition" label="所处位置" align="center">
             <template v-slot:default="scope">
@@ -79,7 +79,7 @@ import TransferCard from "../../components/TransferCard.vue";
 import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import api from "../../api/index";
 import { useRouter } from "vue-router";
-import { ref, onMounted } from "vue";
+import { ref, onMounted ,onActivated ,nextTick} from "vue";
 
 export default {
   components: {
@@ -87,6 +87,7 @@ export default {
     BreadCrumbs,
   },
   setup() {
+    const tableRef = ref(null);
     const router = useRouter();
     const totalStationCount = ref("");
     const currentPage = ref(1);
@@ -141,8 +142,8 @@ export default {
     //接收到页面数据
     const currentPageData = ref([
       {
-        siteId:1,
-      }
+        siteId: 1,
+      },
     ]);
     //获取管理总站点数
     const getTotalStationCount = async () => {
@@ -188,13 +189,21 @@ export default {
     };
 
     onMounted(() => {
-      //console.log("获取总站点数");
+      nextTick(() => {
+        tableRef.value.doLayout();
+      });
       getTotalStationCount();
       getStationPageTable();
     });
 
+    onActivated(() => {
+      nextTick(() => {
+        tableRef.value?.doLayout();
+      });
+    });
     //返回
     return {
+      tableRef,
       totalStationCount,
       currentPageData,
       pageSize,

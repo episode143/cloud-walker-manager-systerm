@@ -1,7 +1,7 @@
 // src/store/index.js
 import { createStore } from "vuex";
 import createPersistedState from "vuex-persistedstate";
-import api from "../api/index"; // 假设你有一个 api 文件来处理 API 请求
+import api from "../api/index";
 
 export default createStore({
   state: {

@@ -27,8 +27,8 @@
     </div>
     <!-- 表格 -->
     <div style="width: 1189px; height: 660px; margin-top: 30px">
-      <el-table :data="currentPageData" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" row-style="height:56px;">
-        <el-table-column prop="avatar" label="头像" align="center" width="160" style="padding: 0px;">
+      <el-table :data="currentPageData" ref="tableRef" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" row-style="height:56px;">
+        <el-table-column prop="avatar" label="头像" align="center" width="160" style="padding: 0px">
           <template v-slot:default="scope">
             <div class="avatar-container">
               <img :src="getAvatarUrl(scope.row.avatar)" class="avatar" />
@@ -79,15 +79,16 @@
 import TransferCard from "../../components/TransferCard.vue";
 import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import api from "../../api/index";
-import {base} from "../../api/path"
+import { base } from "../../api/path";
 import { useRouter } from "vue-router";
-import { ref, onMounted } from "vue";
+import { ref, onMounted ,onActivated ,nextTick} from "vue";
 export default {
   components: {
     TransferCard,
     BreadCrumbs,
   },
   setup() {
+    const tableRef = ref(null);
     const router = useRouter();
     //总用户数
     const totalUserCount = ref("");
@@ -179,6 +180,9 @@ export default {
     //选择排序的方式
     const selectedSortOrder = ref("默认");
     onMounted(() => {
+      nextTick(() => {
+        tableRef.value.doLayout();
+      });
       // console.log("获取总用户数");
       getTotalUserCount();
       getUserPageTable();
@@ -197,7 +201,7 @@ export default {
       }
     };
     const getAvatarUrl = (avatar) => {
-      return base.baseUrl+ avatar; // 动态绑定路径
+      return base.baseUrl + avatar; // 动态绑定路径
     };
     //查看用户按钮跳转用户详细信息页面
     const handleCheckUser = (userId) => {
@@ -240,8 +244,14 @@ export default {
       }
     };
 
+    onActivated(() => {
+      nextTick(() => {
+        tableRef.value.doLayout();
+      });
+    });
     //返回
     return {
+      tableRef,
       totalUserCount,
       totalItems,
       currentPageData,

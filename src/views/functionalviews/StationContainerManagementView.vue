@@ -129,6 +129,7 @@ import ReturnIcon from "../../components/ReturnIcon.vue";
 import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import api from "../../api/index";
+import { ElNotification } from "element-plus";
 import * as XLSX from "xlsx";
 export default {
   components: {
@@ -139,10 +140,10 @@ export default {
     const route = useRoute();
     const clearupDialogVisibility = ref(false);
     const operatingStatus = ref({});
-    const averageDailyWithdrawTimes = computed(()=>{
-      if(operatingStatus.value) {
+    const averageDailyWithdrawTimes = computed(() => {
+      if (operatingStatus.value) {
         const today = new Date();
-        return operatingStatus.value.monthlyWithdrawalCount/today.getDate();
+        return operatingStatus.value.monthlyWithdrawalCount / today.getDate();
       } else {
         return 0;
       }
@@ -348,17 +349,30 @@ export default {
       try {
         clearupDialogVisibility.value = false;
         const params = {
-          siteId: parseInt(route.params.stationId,10),
+          siteId: parseInt(route.params.stationId, 10),
         };
         const response = await api.clearUpOvertimeContainers(params);
         if (response.code === 15081) {
-          console.log(response);
+          //console.log(response.data);
+          if (response.data.pageData.length === 0) {
+            ElNotification({
+              title: "本站点无超时货柜",
+              message: "",
+              type: "success",
+            });
+            return;
+          }
+          ElNotification({
+            title: "一键清除成功",
+            message: "正在生成清理货柜单...",
+            type: "success",
+          });
           // 定义表头
           const headers = ["货柜号", "存入时间", "货物类别", "转移地址"];
           // 定义数据
-          const data = response.data;
+          const data = response.data.pageData;
           // 将对象数组转换为二维数组
-          const aoaData = [headers, ...data.map((item) => [item.containerId, item.depositAt, item.type, item.destination])];
+          const aoaData = [headers, ...data.map((item) => [item.containerId, item.depositTime, item.type, item.destination])];
 
           // 创建工作簿和工作表
           const ws = XLSX.utils.aoa_to_sheet(aoaData);

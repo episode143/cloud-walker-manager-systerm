@@ -26,7 +26,7 @@
     </div>
     <div style="width: 1189px; height: 660px; margin-top: 30px">
       <div style="grid-area: robot-form" class="robot-form">
-        <el-table :data="currentPageData" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" row-style="height:56px;">
+        <el-table :data="currentPageData" ref="tableRef" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" row-style="height:56px;">
           <el-table-column prop="robotId" label="机器人编号" align="center"></el-table-column>
           <el-table-column prop="station" label="所属站点" align="center"></el-table-column>
           <el-table-column prop="state" label="当前状态" align="center"></el-table-column>
@@ -79,7 +79,7 @@ import TransferCard from "../../components/TransferCard.vue";
 import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import api from "../../api/index";
 import { useRouter } from "vue-router";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onActivated, nextTick } from "vue";
 
 export default {
   components: {
@@ -87,6 +87,7 @@ export default {
     BreadCrumbs,
   },
   setup() {
+    const tableRef = ref(null);
     const router = useRouter();
     //总机器人数
     const totalRobotCount = ref("");
@@ -230,14 +231,20 @@ export default {
     };
     //返回
     onMounted(() => {
-      // console.log("获取总机器人数");
-      // 如果有需要获取总机器人数的 API 请求，可以在这里调用
+      nextTick(() => {
+        tableRef.value?.doLayout();
+      });
       getTotalRobotCount();
       getRobotPageTable();
       getBelongStationList();
     });
-
+    onActivated(() => {
+      nextTick(() => {
+        tableRef.value?.doLayout();
+      });
+    });
     return {
+      tableRef,
       totalRobotCount,
       currentPage,
       pageSize,
