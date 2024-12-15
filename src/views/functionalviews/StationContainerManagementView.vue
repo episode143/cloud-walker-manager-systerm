@@ -368,7 +368,7 @@ export default {
         const params = {
           currentPage: currentPage.value,
           pageSize: 10,
-          siteId: route.params.stationId,
+          siteId: parseInt(route.params.stationId, 10),
           status: selectedContainerState.value,
           cabinetType: selectedContainerSize.value,
           packageType: selectedPackageType.value,

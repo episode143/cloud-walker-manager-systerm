@@ -1,10 +1,7 @@
 const base = {
-  // baseUrl:"",
   //baseUrl: "https://apifoxmock.com/m1/5326600-4997107-default", // 替换为你的 API 基础 URL
   baseUrl:"http://120.46.199.126:8080",
-  // baseUrl: "https://apifoxmock.com/m1/5326600-4997107-default", // 替换为你的 API 基础 URL
-  baseUrl:"http://120.46.199.126:8080",
-  //baseUrl:"http://192.168.31.118:80",
+
 };
 
 const paths = {
