@@ -63,7 +63,7 @@ const deleteSystemNotificationMessage = async (params) => {
 
 const haveReadSystemMessage = async (params) => {
   try {
-    const response = await instance.post(paths.haveReadSystemMessage,params)
+    const response = await instance.post(paths.haveReadSystemMessage, params);
     return response;
   } catch (error) {
     console.error("标记消息已读请求失败", error);
@@ -239,6 +239,25 @@ const getPartsPurchaseList = async () => {
     throw error;
   }
 };
+const getRobotRepairType = async (params) => {
+  try {
+    const response = await instance.post(paths.robotRepairType, params);
+    return response;
+  } catch (error) {
+    console.error("获取机器人损坏情况失败", error);
+    throw error;
+  }
+};
+
+const getRobotRepaired = async(params) =>{
+  try {
+    const response = await instance.post(paths.getRobotRepaired, params);
+    return response;
+  } catch (error) {
+    console.error("维修机器人失败", error);
+    throw error;
+  }
+}
 //站点管理界面
 const getTotalStationCount = async () => {
   try {
@@ -504,7 +523,7 @@ const getRobotLat = async (robotId) => {
     console.error("机器人经纬度请求失败", error);
     throw error;
   }
-}
+};
 //--------------------- dht + 机器人目标请求点
 const getRobotStartAndDest = async (robotId) => {
   try {
@@ -515,32 +534,32 @@ const getRobotStartAndDest = async (robotId) => {
   }
 };
 //--------------------- dht + 站点详情
-const getSiteDetails = async(siteName)=>{
-  try{
+const getSiteDetails = async (siteName) => {
+  try {
     return await instance.post(paths.siteDetails, siteName);
-  } catch(error){
+  } catch (error) {
     console.error("站点详情信息请求失败", error);
     throw error;
   }
-}
+};
 // --------------------- dht + 获得某个站点的 busy 机器人数量
-const getBusyRobotInfoBySiteId = async(siteId)=>{
-  try{
+const getBusyRobotInfoBySiteId = async (siteId) => {
+  try {
     return await instance.post(paths.busyRobotInfo, siteId);
-  } catch(error){
+  } catch (error) {
     console.error("站点中繁忙机器人坐标信息请求失败", error);
     throw error;
   }
-}
+};
 // --------------------- dht + 获得某个站点的货柜相关信息
-const getCabinetInfoBySiteId = async(siteId)=>{
-  try{
+const getCabinetInfoBySiteId = async (siteId) => {
+  try {
     return await instance.post(paths.cabinetInfo, siteId);
-  } catch(error){
+  } catch (error) {
     console.error("站点中货柜信息请求失败", error);
     throw error;
   }
-}
+};
 /////
 const api = {
   login,
@@ -571,6 +590,8 @@ const api = {
   updatePartsWaterLine,
   getPartsPurchaseList,
   getPartsWarehoused,
+  getRobotRepairType,
+  getRobotRepaired,
   //站点管理
   getTotalStationCount,
   getStationsOperatingStatus,

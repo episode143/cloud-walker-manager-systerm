@@ -27,7 +27,7 @@
     <div style="width: 1189px; height: 660px; margin-top: 30px">
       <div style="grid-area: robot-form" class="robot-form">
         <el-table :data="currentPageData" ref="tableRef" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" row-style="height:56px;">
-          <el-table-column prop="transactionId" label="流水单号" align="center"></el-table-column>
+          <el-table-column prop="transactionId" label="流水单号" align="center" :formatter="formatTransactionId"></el-table-column>
           <el-table-column prop="transactionTime" label="结算时间" align="center"></el-table-column>
           <el-table-column prop="transactionType" label="收入/支出" align="center"></el-table-column>
           <el-table-column prop="description" label="流水说明" align="center"></el-table-column>
@@ -67,7 +67,7 @@
 import TransferCard from "../../components/TransferCard.vue";
 import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import api from "../../api/index";
-import { ref, onMounted,onActivated, nextTick } from "vue";
+import { ref, onMounted, onActivated, nextTick } from "vue";
 
 export default {
   components: {
@@ -148,6 +148,19 @@ export default {
         console.error("获取流水列表失败", error);
       }
     };
+    const formatTransactionId = (row, column, cellValue) => {
+      // 确保 cellValue 是字符串
+      let value = String(cellValue);
+
+      // 如果长度不足 15 位，在前面补零
+      while (value.length < 15) {
+        value = "0" + value;
+      }
+
+      // 补充 YXZ 前缀
+      value = "YXZ" + value;
+      return value;
+    };
     //监听页面变化
     const handleCurrentChange = (val) => {
       currentPage.value = val; // 更新当前页码
@@ -175,6 +188,7 @@ export default {
       selectedFinanceType,
       sortOrders,
       selectedSortOrder,
+      formatTransactionId,
       handleCurrentChange,
       getTransactionPageTable,
     };
@@ -203,6 +217,5 @@ export default {
   grid-template-areas:
     "crumbs return-icon"
     "transefer-card form-filter";
-  
 }
 </style>

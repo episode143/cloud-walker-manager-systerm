@@ -1,7 +1,7 @@
 const base = {
   // baseUrl:"",
   //baseUrl: "https://apifoxmock.com/m1/5326600-4997107-default", // 替换为你的 API 基础 URL
-  baseUrl:"http://120.46.199.126:80",
+  baseUrl:"http://120.46.199.126:8080",
   //baseUrl:"http://192.168.31.118:80",
 };
 
@@ -36,6 +36,8 @@ const paths = {
   updatePartsWaterLine:'/admin/robotview/analytics/modifyWaterLine',//修改零件水位警报阈值
   partsPurchaseList:'/admin/robotview/purchaselist',//获取进货零件清单
   getPartsWarehoused:'/admin/robotview/storageParts',//零件入库
+  robotRepairType: '/admin/robotview/analytics/getRobotRepairType',//机器人损坏情况
+  getRobotRepaired: '/admin/robotview/analytics/repairRobot',//维修机器人
   //站点管理部分
   totalStationCount:'/admin/siteview/totalSiteCount',//站点分布跳转卡片——总管理站点数量
   stationsOperatingStatus:'/admin/siteview/analytics/cards',//站点运行情况三个卡片

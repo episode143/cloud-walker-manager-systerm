@@ -27,9 +27,20 @@
     <div style="width: 1189px; height: 660px; margin-top: 30px">
       <div style="grid-area: robot-form" class="robot-form">
         <el-table :data="currentPageData" ref="tableRef" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" row-style="height:56px;">
-          <el-table-column prop="robotId" label="机器人编号" align="center"></el-table-column>
+          <el-table-column prop="robotId" label="机器人编号" align="center" :formatter="formatRobotId"></el-table-column>
           <el-table-column prop="station" label="所属站点" align="center"></el-table-column>
-          <el-table-column prop="state" label="当前状态" align="center"></el-table-column>
+          <!-- <el-table-column prop="state" label="当前状态" align="center"></el-table-column> -->
+          <el-table-column label="当前状态" align="center" width="120" style="padding: none">
+            <template v-slot:default="scope">
+              <!-- <div style="height: 34px; display: flex; align-items: center; justify-content: center">
+                <i class="iconfont icon-dingwei" style="font-size: 24px; color: #03bf16" @click="handleCheckRobotPosition(scope.row.robotId)"></i>
+              </div> -->
+              <button v-show="scope.row.state === '待维护'" style="border: none; background-color: transparent; color: #f56c6c; font-size: 17px" @click="openRepairRobotDialog(scope.row.robotId)">
+                维修
+              </button>
+              <span v-show="scope.row.state !== '待维护'">{{ scope.row.state }}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="leftEnergy" label="剩余电量" align="center"></el-table-column>
           <el-table-column label="当前位置" align="center" width="180" style="padding: none">
             <template v-slot:default="scope">
@@ -71,6 +82,26 @@
         </div>
       </div>
     </div>
+    <el-dialog
+      v-model="repairRobotDialogVisibility"
+      title=""
+      width="400"
+      :before-close="handleClose"
+      :show-close="false"
+      :close-on-click-modal="false"
+      style="height: 200px; display: flex; justify-content: center"
+    >
+      <div style="position: absolute; width: 400px; height: 50px; top: 10px; left: 0px; display: flex; justify-content: center">
+        <h1 style="font-size: 18px; color: #294567">维修机器人</h1>
+      </div>
+      <div style="position: absolute; width: 400px; height: 50px; top: 60px; left: 0px; display: flex; justify-content: center">
+        <h1 style="font-size: 18px; color: #294567; font-weight: 500">{{ selectedRobotId }}号机器人{{ robotRepairType }}部位损坏</h1>
+      </div>
+      <div style="position: absolute; width: 400px; height: 50px; top: 140px; left: 0px">
+        <el-button @click="cancleRepair" style="margin-right: 30px">取消</el-button>
+        <el-button type="primary" @click="getRobotRepaired" style="margin-left: 30px">维修</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -80,7 +111,7 @@ import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import api from "../../api/index";
 import { useRouter } from "vue-router";
 import { ref, onMounted, onActivated, nextTick } from "vue";
-
+import { ElNotification } from "element-plus";
 export default {
   components: {
     TransferCard,
@@ -118,6 +149,13 @@ export default {
     ]);
     //选择的站点
     const selectedBelongStation = ref("全部");
+    //选择机器人的id
+    const selectedRobotId = ref(0);
+    //机器人损坏的部位
+    const robotRepairType = ref("");
+    const robotRepairPartId = ref(0);
+    
+    const repairRobotDialogVisibility = ref(false);
     //机器人状态列表
     const operatingStates = ref([
       {
@@ -201,12 +239,21 @@ export default {
         console.error("获取机器人列表失败", error);
       }
     };
+    const formatRobotId = (row, column, cellValue) => {
+      // 确保 cellValue 是字符串
+      let value = String(cellValue);
+      // 如果长度不足 15 位，在前面补零
+      while (value.length < 7) {
+        value = "0" + value;
+      }
+      value = "ROID" + value;
+      return value;
+    };
     //获取机器人所属站点列表(待对接)
     const getBelongStationList = async () => {
       try {
         const response = await api.getBelongStationList();
         if (response.code === 14061) {
-          // console.log("获取站点列表成功");
           belongStations.value = [
             {
               value: "全部",
@@ -216,7 +263,6 @@ export default {
           // console.log(response.data.stationList.length);
           for (let i = 0; i < response.data.stationList.length; i++) {
             let stationName = response.data.stationList[i];
-            // console.log(stationName);
             belongStations.value.push({
               value: stationName,
               label: stationName,
@@ -229,6 +275,61 @@ export default {
         console.error("获取站点列表失败", error);
       }
     };
+
+    const getRobotRepaired = async () => {
+      try {
+        const params = {
+          robotId: parseInt(selectedRobotId.value, 10),
+          partId : robotRepairPartId.value,
+        };
+        console.log(params);
+        const response = await api.getRobotRepaired(params);
+        console.log(response);
+        if (response.code === 14131) {
+          ElNotification({
+            title: "维修成功",
+            message: "机器人" + selectedRobotId.value + "号已维修",
+            type: "success",
+          });
+          selectedRobotId.value = 0;
+          robotRepairType.value = "";
+          robotRepairPartId.value = 0;
+          repairRobotDialogVisibility.value = false;
+          await getRobotPageTable();
+        } else {
+          console.error("获取机器人损坏情况失败", response.msg);
+        }
+      } catch (error) {
+        console.error("获取机器人损坏情况失败", error);
+      }
+    };
+    const openRepairRobotDialog = (robotId) => {
+      repairRobotDialogVisibility.value = true;
+      selectedRobotId.value = robotId;
+      getRobotRepairType();
+    };
+    const getRobotRepairType = async () => {
+      try {
+        const params = {
+          robotId: parseInt(selectedRobotId.value, 10),
+        };
+        const response = await api.getRobotRepairType(params);
+        if (response.code === 14121) {
+          robotRepairType.value = response.data.part_name;
+          robotRepairPartId.value = response.data.repair_sparepart_id;
+        } else {
+          console.error("获取机器人损坏情况失败", response.msg);
+        }
+      } catch (error) {
+        console.error("获取机器人损坏情况失败", error);
+      }
+    };
+    const cancleRepair = ()=>{
+      selectedRobotId.value  = 0;
+      repairRobotDialogVisibility.value = false;
+      robotRepairType.value = "";
+      robotRepairPartId.value = 0;
+    }
     //返回
     onMounted(() => {
       nextTick(() => {
@@ -254,6 +355,14 @@ export default {
       selectedBelongStation,
       operatingStates,
       selectedOperatingState,
+      formatRobotId,
+      selectedRobotId,
+      getRobotRepairType,
+      robotRepairType,
+      repairRobotDialogVisibility,
+      openRepairRobotDialog,
+      getRobotRepaired,
+      cancleRepair,
       handleCheckRobotPosition,
       handleCheckRobotState,
       handleCurrentChange,

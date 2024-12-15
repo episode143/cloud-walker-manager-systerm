@@ -368,16 +368,17 @@ export default {
             type: "success",
           });
           // 定义表头
-          const headers = ["货柜号", "存入时间", "货物类别", "转移地址"];
+          const headers = ["货柜号", "包裹号", "存入时间", "货物类别", "转移地址"];
           // 定义数据
           const data = response.data.pageData;
           // 将对象数组转换为二维数组
-          const aoaData = [headers, ...data.map((item) => [item.containerId, item.depositTime, item.type, item.destination])];
+          const aoaData = [headers, ...data.map((item) => [item.containerId,item.packageId, item.depositTime, item.type, item.destination])];
 
           // 创建工作簿和工作表
           const ws = XLSX.utils.aoa_to_sheet(aoaData);
           const colWidths = [
             { wch: 20 }, // 第一列（货柜号）两格宽
+            { wch: 20 },
             { wch: 20 }, // 第二列（存入时间）一格宽
             { wch: 10 }, // 第三列（货物类别）一格宽
             { wch: 20 }, // 第四列（转移地址）两格宽

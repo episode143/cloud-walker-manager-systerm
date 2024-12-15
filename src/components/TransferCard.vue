@@ -3,14 +3,14 @@
     <h1 class="transfer-header-field-1">{{ field1 }}</h1>
     <h1 class="transfer-header-statistics-1">{{ statistics1 }}</h1>
     <h1 class="transfer-header-field-2">{{ field2 }}</h1>
-    <button class="transfer-header-button" :style="buttonStyle" @mouseover="hoverButton" @mouseleave="unhoverButton" @click="redirectToLink">
+    <button class="transfer-header-button" :style="buttonStyle"  @click="redirectToLink">
       <i class="iconfont" :class="iconClass" :style="iconStyle"></i>
     </button>
   </div>
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default {
@@ -26,16 +26,6 @@ export default {
   },
   setup(props) {
     const router = useRouter();
-    const isHovered = ref(false);
-
-    const hoverButton = () => {
-      isHovered.value = true;
-    };
-
-    const unhoverButton = () => {
-      isHovered.value = false;
-    };
-
     const headerStyle = computed(() => ({
       backgroundColor: props.color,
       borderRadius: '8px'
@@ -43,18 +33,7 @@ export default {
 
     const buttonStyle = computed(() => ({
       backgroundColor: props.buttonColor,
-      top: isHovered.value ? '32px' : '30px',
-      left: isHovered.value ? '290px' : '288px',
-      height: isHovered.value ? '52px' : '56px',
-      width: isHovered.value ? '52px' : '56px',
-      borderRadius: isHovered.value ? '26px' : '28px'
     }));
-
-    const iconStyle = computed(() => ({
-      color: isHovered.value ? '#02a7f0' : 'white',
-      fontSize: isHovered.value ? '29px' : '32px'
-    }));
-
     const redirectToLink = () => {
       if (props.link) {
         router.push(props.link);
@@ -62,12 +41,8 @@ export default {
     };
 
     return {
-      isHovered,
-      hoverButton,
-      unhoverButton,
       headerStyle,
       buttonStyle,
-      iconStyle,
       redirectToLink
     };
   }
@@ -130,6 +105,11 @@ export default {
 
 .transfer-header-button:hover {
   cursor: pointer;
+  top: 32px;
+  left: 290px;
+  height: 52px;
+  width: 52px;
+  border-radius: 26px;
 }
 
 .transfer-header-button .iconfont {
