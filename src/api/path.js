@@ -2,6 +2,8 @@ const base = {
   // baseUrl:"",
   //baseUrl: "https://apifoxmock.com/m1/5326600-4997107-default", // 替换为你的 API 基础 URL
   baseUrl:"http://120.46.199.126:8080",
+  // baseUrl: "https://apifoxmock.com/m1/5326600-4997107-default", // 替换为你的 API 基础 URL
+  baseUrl:"http://120.46.199.126:8080",
   //baseUrl:"http://192.168.31.118:80",
 };
 
@@ -19,7 +21,7 @@ const paths = {
   //用户管理部分
   totalUserCount:'/admin/userview/totalUserCount',//用户管理跳转卡片——总用户数
   userTransformationSituation:'/admin/userview/analytics/cards',//用户数据统计头部三个卡片——用户转化情况
-  userCountYearlyAnalysis:'/admin/userview/analytics/growthForPast12Month',//用户一年内每月数量变化 
+  userCountYearlyAnalysis:'/admin/userview/analytics/growthForPast12Month',//用户一年内每月数量变化
   userFrequencyAnalysis:'/admin/userview/analytics/frequencyUsers',//用户使用频率肖像分析
   userLossQuarterlyAnalysis:'/admin/userview/analytics/find8MonthUserChurnCount',//用户流失分析
   userDetailedInformation: '/admin/userview/analytics/detailedinformation',//用户详细数据
@@ -80,6 +82,7 @@ const paths = {
   siteDetails:'/admin/siteview/analytics/siteDetails',//----------------dht + 站点详情
   busyRobotInfo:'/admin/siteview/busyrobotinfo', //---------------------dht + 获得某个站点的 busy 机器人的坐标
   cabinetInfo: '/admin/siteview/analytics/cabinetInfo', //--------------dht + 获得某个站点的货柜相关信息
+  siteCabinet: '/admin/siteview/getsitecabinet'
 };
 
 export { base, paths };

@@ -170,6 +170,7 @@ export default {
     StationRobotDashboardProgress,
   },
   setup() {
+    // 站点信息
     const sites = [
       {},
       {
@@ -242,6 +243,7 @@ export default {
     ];
     // 切换地图
     const selectedRegion = ref(1);
+
     const changeSite = async () => {
       map.setCenter(sites[selectedRegion.value].center);
       try {
@@ -255,6 +257,7 @@ export default {
           siteInfo.value.todayTotalProfit = response.data.todayTotalProfit;
           siteInfo.value.robotInUseCount = response.data.robotInUseCount;
           siteInfo.value.todayWaitOrderCount = response.data.todayWaitOrderCount;
+          console.log('getSiteDatails:', response.data);
 
           // cabinetInfo.value.big.current = response.data.cabinetSizeInUseCount[2].value;
           // cabinetInfo.value.mid.current = response.data.cabinetSizeInUseCount[0].value;
@@ -269,6 +272,7 @@ export default {
         console.log(`获取${sites[selectedRegion.value].name}数据失败`, e);
       }
     };
+    // 地图加载
     let map = null;
     let addPolygon = (path, i) => {
       let polygon = new AMap.Polygon({
@@ -329,7 +333,6 @@ export default {
       { color: "#e6a23c", percentage: 40 },
       { color: "#67c23a", percentage: 100 },
     ];
-    const showContainertype = ref("大型");
     const items = ref([
       {
         field1: "回头客",
@@ -367,20 +370,12 @@ export default {
     ]);
 
     const operatingStatus = ref({
-      mostBusySiteName: "三区十栋",
+      mostBusySiteName: "天马学生公寓",
       mostBusySiteCount: 1302,
       avgDayRobotOrderCount: 0.83,
       monthCompletedOrderCount: 523,
     });
-    const changetoBig = () => {
-      showContainertype.value = "大型";
-    };
-    const changetoMiddle = () => {
-      showContainertype.value = "中型";
-    };
-    const changetoSmall = () => {
-      showContainertype.value = "小型";
-    };
+
     const getStationsOperatingStatus = async () => {
       try {
         const response = await api.getStationsOperatingStatus();
@@ -425,12 +420,12 @@ export default {
     onUnmounted(() => {
       map?.destroy();
     });
+
     return {
       percentage,
       customColor,
       items,
       colorObject,
-      showContainertype,
       operatingStatus,
       sites,
       selectedRegion,
@@ -438,9 +433,6 @@ export default {
       changeSite,
       addPolygon,
       addMarker,
-      changetoBig,
-      changetoMiddle,
-      changetoSmall,
     };
   },
 };
