@@ -100,6 +100,21 @@ nav a.router-link-exact-active {
   border: 1px solid #294567;
 }
 
+.el-popper.is-customized {
+  padding: 1px 10px;
+  margin-bottom: 1px;
+  background-color: #FAFCFF;
+  font-size: 18px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #294567;
+  border: 1px solid #294567;
+}
+
+
+
 .el-popper.is-customized .el-popper__arrow::before {
   background-color: #FAFCFF;
   border: 1px solid #294567;

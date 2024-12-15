@@ -1,3 +1,4 @@
+// import { ca, tr } from "element-plus/es/locale";
 import instance from "../utils/request";
 import { paths } from "./path";
 
@@ -541,6 +542,13 @@ const getCabinetInfoBySiteId = async(siteId)=>{
     throw error;
   }
 }
+const getSiteCabinet = async(siteId) => {
+  try {
+    return await instance.post(paths.siteCabinet, siteId);
+  } catch (error) {
+    console.error('货柜地图信息请求失败', error)
+  }
+}
 /////
 const api = {
   login,
@@ -611,6 +619,7 @@ const api = {
   getSiteDetails,
   getBusyRobotInfoBySiteId,
   getCabinetInfoBySiteId,
+  getSiteCabinet
 };
 
 export default api;
