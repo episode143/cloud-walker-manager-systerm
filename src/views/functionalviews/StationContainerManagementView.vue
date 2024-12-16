@@ -8,16 +8,80 @@
     </div>
     <div class="station-operating-robot-map-container">
       <div class="station-operating-robot-map" style="grid-area: map">
-        <span style="font-weight: 550; color: #294567; font-size: 20px; position: absolute; top: 15px; left: 35px">当前站点</span>
-        <span style="font-weight: 550; color: #0482ff; font-size: 20px; position: absolute; top: 15px; left: 135px">{{ operatingStatus.siteName }}</span>
-        <div></div>
-        <div style="position: absolute; left: 35px; top: 52px; width: 790px; height: 345px; background-color: rgb(235.9, 245.3, 255); border-radius: 4px">
-          <br />
-          <br />
-          <br />
-          <h1>货柜分布地图</h1>
-          <h1>规格：高345px 宽790px</h1>
-        </div>
+
+
+          <div class="cabinet-layout">
+            <div class="cabinet-grid">
+              <div class="cabinet-section small-section">
+                <div class="cabinet small" v-for="i in 72" :key="i" :class="getCabinetStatusClass(cabs.small[i-1]?.status)">
+                  <el-tooltip 
+                    v-if="cabs.small[i-1]"
+                    effect="light" 
+                    placement="top">
+                    <template #content >
+                      <div class="cabinet-tooltip-content">
+                        货柜号：{{ cabs.small[i-1].cabinetId }}<br>
+                        入柜时间：{{ cabs.small[i-1].inTime }}<br>
+                        包裹号：{{ cabs.small[i-1].packageId }}<br>
+                        包裹类型：{{ cabs.small[i-1].packageType }}<br>
+                        状态：{{ status2Text(cabs.small[i-1].status) }}<br>
+                        尺寸：小
+                      </div>
+                    </template>
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center;">
+                      <span class="cabinet-number">{{i}}</span>
+                    </div>
+                  </el-tooltip>
+                </div>
+              </div>
+              <div class="cabinet-section mid-section">
+                <div class="cabinet mid" v-for="i in 24" :key="i" :class="getCabinetStatusClass(cabs.medium[i-1]?.status)">
+                  <el-tooltip 
+                    v-if="cabs.medium[i-1]"
+                    effect="light"  
+                    placement="top" >
+                    <template #content >
+                      <div class="cabinet-tooltip-content">
+                        货柜号：{{ cabs.medium[i-1].cabinetId }}<br>
+                        入柜时间：{{ cabs.medium[i-1].inTime }}<br>
+                        包裹号：{{ cabs.medium[i-1].packageId }}<br>
+                        包裹类型：{{ cabs.medium[i-1].packageType }}<br>
+                        状态：{{ status2Text(cabs.medium[i-1].status)  }}<br>
+                        尺寸：小
+                      </div>
+                    </template>
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center;">
+                      <span class="cabinet-number">{{i}}</span>
+                    </div>
+                  </el-tooltip>
+                </div>
+              </div>
+              <div class="cabinet-section big-section">
+                <div class="cabinet big" v-for="i in 8" :key="i" :class="getCabinetStatusClass(cabs.large[i-1]?.status)">
+                  <el-tooltip 
+                    v-if="cabs.large[i-1]"
+                    effect="light" 
+                    placement="top">
+                    <template #content >
+                      <div class="cabinet-tooltip-content">
+                        货柜号：{{ cabs.large[i-1].cabinetId }}<br>
+                        入柜时间：{{ cabs.large[i-1].inTime }}<br>
+                        包裹号：{{ cabs.large[i-1].packageId }}<br>
+                        包裹类型：{{ cabs.large[i-1].packageType }}<br>
+                        状态：{{ status2Text(cabs.large[i-1].status) }}<br>
+                        尺寸：小
+                      </div>
+                    </template>
+                    <div style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center;">
+                      <span class="cabinet-number">{{i}}</span>
+                    </div>
+                  </el-tooltip>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
       </div>
       <div class="station-operating-robot-displayer" style="grid-area: display-station">
         <span style="top: 30px; font-weight: 550">超时亟待清理货柜数</span>
@@ -131,6 +195,7 @@ import { useRoute } from "vue-router";
 import api from "../../api/index";
 import { ElNotification } from "element-plus";
 import * as XLSX from "xlsx";
+// import { ca, pa } from "element-plus/es/locale";
 export default {
   components: {
     BreadCrumbs,
@@ -138,6 +203,9 @@ export default {
   },
   setup() {
     const route = useRoute();
+    const siteId = ref(null);
+    siteId.value = route.params.siteId;
+    console.log('siteId:',siteId.value);
     const clearupDialogVisibility = ref(false);
     const operatingStatus = ref({});
     const averageDailyWithdrawTimes = computed(() => {
@@ -300,7 +368,11 @@ export default {
         const params = {
           currentPage: currentPage.value,
           pageSize: 10,
+<<<<<<< HEAD
           siteId: parseInt(route.params.stationId,10),
+=======
+          siteId: parseInt(route.params.stationId, 10),
+>>>>>>> 108daaadb1b231010ec68bae63f609c4130ccc99
           status: selectedContainerState.value,
           cabinetType: selectedContainerSize.value,
           packageType: selectedPackageType.value,
@@ -404,13 +476,77 @@ export default {
         console.error("一键清理超时货柜失败", error);
       }
     };
+<<<<<<< HEAD
     onActivated(()=>{
       getCabinetPageTable();
       getStationDetailedInformation();
     });
+=======
+
+    const cabs = ref({
+      small: [],
+      medium: [],
+      large: []
+    });
+
+
+    const isLoaded = ref(false);
+    const getAllCabinets = async () => {
+      try {
+        const params = {
+          siteId: parseInt(route.params.stationId),
+        }
+        console.log('请求参数:', params);  // 检查参数
+
+        const respone = await api.getSiteCabinet(params)
+        console.log('API响应:', respone);  // 检查响应
+
+        if (respone.code == 15091) {
+          cabs.value = respone.data
+          console.log('设置后的cabs:', cabs.value);  // 检查设置后的值
+          console.log('设置后的cabs.small:', cabs.value.small[0]);  // 检查设置后的值
+          isLoaded.value = true;
+        } else {
+          console.error('获得货柜地图失败', respone.msg)
+        }
+      } catch(error) {
+        console.error('获得货柜地图失败', error)
+      }
+    }
+
+    const getCabinetStatusClass = (status) => {
+      switch(status) {
+        case 'available':
+          return 'cabinet-available';
+        case 'occupied':
+          return 'cabinet-occupied';
+        case 'timeout':
+          return 'cabinet-timeout';
+        default:
+          return '';
+      }
+    }
+    const status2Text = (status) => {
+      switch(status) {
+        case 'available':
+          return '空闲';
+        case 'occupied':
+          return '占用';
+        case 'timeout':
+          return '超时';
+        default:
+          return '';
+      }
+    }
+
+
+
+>>>>>>> 108daaadb1b231010ec68bae63f609c4130ccc99
     onMounted(() => {
+      console.log("mounted");
       getCabinetPageTable();
       getStationDetailedInformation();
+      getAllCabinets();
     });
     return {
       clearupDialogVisibility,
@@ -433,12 +569,101 @@ export default {
       getPackageIconStyle,
       handleCurrentChange,
       getCabinetPageTable,
+      cabs,
+      isLoaded,
+      getCabinetStatusClass,
+      status2Text
     };
   },
 };
 </script>
 
 <style scoped>
+.cabinet-layout {
+  width: 100%;
+  height: 100%;
+
+  background-color: #f5f7fa;
+  border-radius: 8px;
+  overflow: auto;
+}
+
+.cabinet-grid {
+  display: grid;
+  grid-template-columns: 5fr 3fr 2fr;
+  gap: 15px;
+  height: 100%;
+}
+
+.cabinet-section {
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  align-content: start;
+}
+
+.small-section {
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+}
+
+.mid-section {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+}
+
+.big-section {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+}
+
+.cabinet {
+  aspect-ratio: 1;
+  background: white;
+  border: 1px solid #e4e7ed;
+  /* border: 1px solid black; */
+
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.cabinet:hover {
+  transform: translateY(-2px);
+  border-color: #409EFF;
+  box-shadow: 0 2px 8px rgba(64,158,255,0.15);
+}
+
+.cabinet.small {
+  background-color: #f0f9ff;
+  width: 36px;
+  height: 36px;
+}
+
+.cabinet.mid {
+  background-color: #f0f7ff;
+  width: 50px;
+  height: 50px;
+}
+
+.cabinet.big {
+  background-color: #ecf5ff;
+  width: 60px;
+  height: 85px;
+}
+
+/* .cabinet-number {
+  font-size: 12px;
+  font-weight: 500;
+  color: #409EFF;
+} */
+
 .user-detailed-onformation-grid {
   display: grid;
   grid-template-columns: 384px 785px;
@@ -560,6 +785,7 @@ export default {
   position: relative;
 }
 .station-operating-robot-map {
+
   height: 100%;
   width: 100%;
   border-radius: 8px;
@@ -656,4 +882,48 @@ export default {
   animation: rotate 1s linear infinite; /* 使用定义的旋转动画 */
   transform-origin: center; /* 旋转中心点为元素中心 */
 }
+
+
+.cabinet-tooltip-content {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.8;
+  padding: 5px 0;
+  font-weight: normal;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  
+}
+
+/* 空闲状态 */
+.cabinet-available {
+  background-color: #f0f9eb !important;  /* 浅绿色 */
+  border: 1px solid #67c23a !important;
+  font-size: 12px;
+  font-weight: 500;
+  color: #409EFF;
+}
+
+/* 占用状态 */
+.cabinet-occupied {
+  background-color: #ecf5ff !important;  /* 浅蓝色背景 */
+  border: 1px solid #409EFF !important;  /* 深蓝色边框 */
+
+  font-size: 12px;
+  font-weight: 500;
+  color: #409EFF;
+}
+
+/* 超时状态 */
+.cabinet-timeout {
+
+  background-color: #fef0f0 !important;  /* 浅红色 */
+  border: 1px solid #f56c6c !important;
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important; */
+  font-size: 12px;
+  font-weight: 500;
+  color: #409EFF;
+}
+
 </style>
+
+
