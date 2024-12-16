@@ -116,7 +116,7 @@
   </div>
 </template>
 <script>
-import { computed, ref, reactive, onMounted } from "vue";
+import { computed, ref, reactive, onMounted ,onActivated} from "vue";
 import { useRoute } from "vue-router";
 import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import ReturnIcon from "../../components/ReturnIcon.vue";
@@ -316,6 +316,10 @@ export default {
     };
     //获取用户详细数据 获取用户本周使用情况
     onMounted(() => {
+      getUserDetailedInformation();
+      getUserWeeklyUsage();
+    });
+    onActivated(()=>{
       getUserDetailedInformation();
       getUserWeeklyUsage();
     });

@@ -256,6 +256,9 @@ export default {
       if (!selectedStartTime.value || !selectedEndTime.value || !rechargeReward.value) {
         throw new Error("表单信息不完整");
       }
+      if( new Date(selectedStartTime.value) > new Date(selectedEndTime.value)) {
+        throw new Error("活动开始时间必须早于结束时间");
+      }
       const params = {
         startTime: formattedStartTime.value,
         endTime: formattedEndTime.value,
@@ -272,6 +275,9 @@ export default {
       router.push({ path: "/admin/marketing/management" });
     };
     const postMarketingActivity = async () => {
+      if( new Date(selectedStartTime.value) > new Date(selectedEndTime.value)) {
+        throw new Error("活动开始时间必须早于结束时间");
+      }
       const params = {
         activityName: activityTitle.value,
         startTime: formattedStartTime.value,
@@ -291,7 +297,6 @@ export default {
       console.log(params);
       console.log(formattedStartTime.value);
       console.log(formattedEndTime.value);
-      //console.log("base64", base64Image.value);
       if (!(activityTitle.value && selectedStartTime.value && selectedEndTime.value && base64Image.value && selectedActivityForm.value && ticketForm.value)) {
         throw new Error("表单信息不完整");
       }

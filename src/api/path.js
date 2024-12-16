@@ -31,8 +31,8 @@ const paths = {
   robotRepairPartStatus:'/admin/robotview/analytics/repairCount',//机器人损坏的零部件情况
   belongStationList:'/admin/robotview/analytics/stationlist',//机器人归属站点列表
   robotPartsInventory:'/admin/robotview/analytics/sparepartCount',//获取机器人零件库存
-  realTimeStatus:'/admin/robotview/analytics/realtimestatus',//机器人实时状态
-  realTimeOrderList:'/admin/robotview/analytics/order',//机器人派送包裹列表
+  realTimeStatus:'/robot/get-velocity',//机器人实时状态
+  realTimeOrderState:'/admin/robotview/analytics/order',//机器人正在配送订单实时状态
   updatePartsWaterLine:'/admin/robotview/analytics/modifyWaterLine',//修改零件水位警报阈值
   partsPurchaseList:'/admin/robotview/purchaselist',//获取进货零件清单
   getPartsWarehoused:'/admin/robotview/storageParts',//零件入库

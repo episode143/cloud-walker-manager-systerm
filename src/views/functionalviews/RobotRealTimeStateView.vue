@@ -9,16 +9,93 @@
     <div class="realtime-status-display">
       <div class="first-sight-header">
         <!-- <i class="iconfont icon-ziyuan" style="font-size: 30px; color: #0482FF; margin-left: 30px"></i> -->
-        <h1 style="font-size: 20px; color: #294567; margin-left: 270px; font-weight: 550; font-size: 20px">{{ robotId }}号</h1>
+        <h1 style="font-size: 20px; color: #294567; margin-left: 365px; font-weight: 550; font-size: 20px">{{ robotId }}号</h1>
         <h1 style="font-size: 20px; margin-left: 5px; font-weight: 550; color: #0482ff; font-size: 20px">机器人第一视角</h1>
       </div>
       <div class="first-sight-content">
-        <div style="height: 96%; width: 96%;border-radius: 4px;border: 4px solid #409eff">
-          <img src="http://192.168.172.236:8000/robot/video_stream" alt="机器人实时图像流" style="height: 100%; width: 100%; border-radius: 3px;" />
+        <div style="height: 96%; width: 97%; border-radius: 4px; border: 4px solid #409eff; position: absolute">
+          <div style="position: absolute; bottom: 7px; right: 0px; background-color: transparent; height: 20px; width: 220px; z-index: 5; display: flex; justify-content: center; align-items: center">
+            <i class="iconfont icon-dingwei2" style="color: #409eff; font-size: 20px; position: absolute; left: 18px"></i>
+            <span style="font-size: 16px; position: absolute; left: 40px"
+              >({{ robotPosition.latitude === 0 ? 28.167326 : robotPosition.latitude }},{{ robotPosition.longitude === 0 ? 112.947576 : robotPosition.longitude }})</span
+            >
+          </div>
+          <!-- <div style="position: absolute; bottom: 7px; right: 0px; background-color: transparent; height: 20px; width: 240px; z-index: 5; display: flex; justify-content: center; align-items: center">
+            <i class="iconfont icon-speed_line" style="color: #409eff; font-size: 19px; position: absolute; left: 19px"></i>
+            <span style="font-size: 16px; position: absolute; left: 40px"
+              >线{{ robotPosition.latitude === 0 ? 28.167326 : robotPosition.latitude }} 角{{ robotPosition.longitude === 0 ? 112.947576 : robotPosition.longitude }}</span
+            >
+          </div> -->
+          <img src="http://192.168.172.236:8000/robot/video_stream" alt="机器人实时图像流" style="height: 100%; width: 100%; border-radius: 3px" />
         </div>
       </div>
 
-      <div class="real-time-status-box">
+      <div class="state-station">
+        <!-- <span style="position: absolute; left: 20px; font-size: 18px; font-weight: 550; color: #294567d0; top: 20px">机器人实时状态</span> -->
+        <span style="position: absolute; left: 50px; font-size: 18px; font-weight: 550; color: #294567d0; top: 490px">机器人剩余电量</span>
+        <div style="position: absolute; width: 75%; left: 12.5%; height: 30px; top: 535px">
+          <el-progress :text-inside="true" :stroke-width="20" :percentage="stateForm.leftBatteryCapacity" />
+        </div>
+        <div style="position: absolute; bottom: 100px; width: 100%; height: 350px; background-color: transparent">
+          <el-timeline style="max-width: 240px; position: absolute; bottom: 70px; left: -15px">
+            <el-timeline-item timestamp="" hide-timestamp="true" placement="top" type="primary">
+              <div style="height: 125px; width: 180px">
+                <span style="font-size: 18px; font-weight: 550; position: absolute; left: 25px; top: -2px; color: #294567d0">{{ stateForm.getOrderTime }}</span>
+                <span style="font-size: 18px; font-weight: 500; position: absolute; left: 25px; top: 23px; color: #0482ff">机器人接收订单</span>
+                <i class="iconfont icon-chufadian" style="position: absolute; color: #0482ff; font-size: 18px; top: 58px; left: 24px"></i>
+                <span
+                  style="
+                    font-size: 18px;
+                    font-weight: 530;
+                    position: absolute;
+                    left: 50px;
+                    top: 57px;
+                    color: #294567d0;
+                    white-space: normal;
+                    word-break: break-all;
+                    overflow-wrap: break-word;
+                    max-width: 150px;
+                    text-align: left;
+                  "
+                  >{{ stateForm.onDeliverOrderId }}</span
+                >
+              </div>
+            </el-timeline-item>
+            <el-timeline-item timestamp="" hide-timestamp="true" placement="top" type="primary">
+              <div style="height: 125px; width: 200px">
+                <span style="font-size: 18px; font-weight: 550; position: absolute; left: 25px; top: -2px; color: #294567d0">{{ currentTime }}</span>
+                <span style="font-size: 18px; font-weight: 500; position: absolute; left: 25px; top: 23px; color: #0482ff">正在全力配送中</span>
+                <i class="iconfont icon-sudu1" style="position: absolute; color: #0482ff; font-size: 20px; top: 58px; left: 24px"></i>
+                <span style="font-size: 18px; font-weight: 530; position: absolute; left: 50px; top: 54px; color: #294567d0">实时速度{{ robotVelocity.linear_velocity }}m/s</span>
+              </div>
+            </el-timeline-item>
+            <el-timeline-item timestamp="" hide-timestamp="true" placement="top" type="primary">
+              <div style="height: 50px; width: 200px">
+                <span style="font-size: 18px; font-weight: 550; position: absolute; left: 25px; top: -2px; color: #294567d0">{{ stateForm.predictCompleteDeliveryTime }}</span>
+                <span style="font-size: 18px; font-weight: 500; position: absolute; left: 27px; top: 23px; color: #0482ff">预计送达目的地</span>
+                <i class="iconfont icon-mudedi1" style="position: absolute; color: #0482ff; font-size: 18px; top: 58px; left: 24px"></i>
+                <span
+                  style="
+                    font-size: 17px;
+                    font-weight: 530;
+                    position: absolute;
+                    left: 50px;
+                    top: 53px;
+                    color: #294567d0;
+                    white-space: normal;
+                    word-break: break-all;
+                    overflow-wrap: break-word;
+                    max-width: 150px;
+                    text-align: left;
+                  "
+                  >{{ stateForm.destinationAddress }}</span
+                >
+              </div>
+            </el-timeline-item>
+          </el-timeline>
+        </div>
+      </div>
+      <!-- <div class="real-time-status-box">
         <div class="state-card" style="top: 20px; left: 20px">
           <i class="iconfont icon-dingdanyichenggong" style="font-size: 36px"></i>
           <h1>今日完成</h1>
@@ -39,9 +116,9 @@
             <div style="height: 6px; border-radius: 3px" :style="{ backgroundColor: colorStyle, width: powerLength }"></div>
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <div class="real-time-status-list">
+      <!-- <div class="real-time-status-list">
         <div style="width: 95%; margin-left: 2.5%; height: 65px; background-color: transparent; color: #409eff">
           <i class="iconfont icon-dingdanchulizhong" style="font-size: 36px; position: absolute; top: 15px; left: 95px"></i>
           <h1 style="position: absolute; left: 140px; font-size: 20px; top: 0px">派送订单列表</h1>
@@ -59,7 +136,7 @@
             </li>
           </ul>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -68,7 +145,7 @@
 import { useRoute } from "vue-router";
 import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import ReturnIcon from "../../components/ReturnIcon.vue";
-import { computed, onMounted, ref, onUnmounted } from "vue";
+import { computed, onMounted, ref, onUnmounted, onActivated, onDeactivated } from "vue";
 import api from "../../api/index";
 export default {
   components: {
@@ -76,9 +153,16 @@ export default {
     ReturnIcon,
   },
   setup() {
+    let intervalId = null;
     const route = useRoute();
     const robotId = computed(() => route.params.robotId);
-
+    const robotPosition = ref({
+      latitude: 0,
+      longitude: 0,
+    });
+    const robotVelocity = ref({
+      linear_velocity: "0.00",
+    });
     // 初始化实时状态数据
     const realtimeStatus = ref({
       completeOrderNumber: 32,
@@ -86,7 +170,14 @@ export default {
       dumpEnergy: 70,
       todayToatlMileage: 31.45,
     });
-
+    const stateForm = ref({
+      getOrderTime: "",
+      onDeliverOrderId: "",
+      destinationAddress: "",
+      predictCompleteDeliveryTime: "",
+      predictCompletePeriod: 0,
+      leftBatteryCapacity: 0,
+    });
     // 计算属性必须在返回对象之前定义
     const colorStyle = computed(() => {
       let colorStyle = "";
@@ -102,6 +193,18 @@ export default {
       return colorStyle;
     });
 
+    const currentTime = ref("");
+    const getCurrentTime = () => {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0"); // 月份从 0 开始，所以需要加 1
+      const day = String(now.getDate()).padStart(2, "0");
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+      const seconds = String(now.getSeconds()).padStart(2, "0");
+
+      return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+    };
     const powerLength = computed(() => {
       return realtimeStatus.value.dumpEnergy.toString() + "%";
     });
@@ -117,18 +220,31 @@ export default {
       { id: 9, orderId: "O214312", predictCompleteTime: 13 },
       { id: 10, orderId: "O214312", predictCompleteTime: 13 },
     ]);
-
-    //获取机器人实时状态列表(待对接)
-    const getRealTimeStatus = async () => {
+    const getRobotPosition = async () => {
+      try {
+        const response = await api.getRobotLat({
+          robotId: parseInt(robotId.value, 10),
+        });
+        if (response.code === 14091) {
+          robotPosition.value.latitude = response.data.latitude;
+          robotPosition.value.longitude = response.data.longitude;
+        } else {
+          console.error("获取机器人坐标失败", response.msg);
+        }
+      } catch (error) {
+        console.error("获取机器人坐标失败", error);
+      }
+    };
+    const getRobotRealTimeStatus = async () => {
       try {
         const params = {
-          robotId: route.params.robotId,
+          robotId: parseInt(robotId.value, 10),
         };
         const response = await api.getRealTimeStatus(params);
-        if (response.code === 14071) {
-          realtimeStatus.value.completeOrderNumber = response.data.todayCompleteOrderNumber;
-          realtimeStatus.value.todayToatlMileage = response.data.todayTotalMileage;
-          realtimeStatus.value.dumpEnergy = response.data.leftBatteryCapacity;
+        if (response.code === 50081) {
+          stateForm.value.leftBatteryCapacity = response.data.battery;
+          robotVelocity.value.angular_velocity = response.data.angular_velocity.toFixed(2);
+          robotVelocity.value.linear_velocity = response.data.linear_velocity.toFixed(2);
         } else {
           console.error("获取机器人实时状态失败", response.msg);
         }
@@ -136,37 +252,71 @@ export default {
         console.error("获取机器人实时状态失败", error);
       }
     };
-    //获取机器人实时订单列表(待对接)
-    const getRealTimeOrderList = async () => {
+    const getRealTimeOrderState = async () => {
       try {
         const params = {
-          robotId: route.params.robotId,
+          robotId: parseInt(robotId.value, 10),
         };
-        const response = await api.getRealTimeOrderList(params);
-        if (response.code === 14081) {
-          orderList.value = response.data.orderList;
+        const response = await api.getRealTimeOrderState(params);
+        if (response.code === 14071) {
+          if (response.data !== null) {
+            stateForm.value.destinationAddress = response.data.delivery_address;
+            stateForm.value.getOrderTime = response.data.delivery_starttime;
+            stateForm.value.onDeliverOrderId = response.data.order_id;
+            stateForm.value.predictCompleteDeliveryTime = response.data.estimated_completion_time;
+          } else {
+            stateForm.value.destinationAddress = "暂无地址";
+            stateForm.value.getOrderTime = "暂无配送任务";
+            stateForm.value.onDeliverOrderId = "暂无任务";
+            stateForm.value.predictCompleteDeliveryTime = "休息中";
+          }
         } else {
-          console.error("获取机器人实时任务失败", response.msg);
+          console.error("获取机器人实时订单状态失败", response.msg);
         }
       } catch (error) {
-        console.error("获取机器人实时任务失败", error);
+        console.error("获取机器人实时订单状态失败", error);
       }
     };
-
+    onActivated(() => {
+      // 如果定时器已经存在，则不重复启动
+      if (!intervalId) {
+        intervalId = setInterval(() => {
+          currentTime.value = getCurrentTime();
+        }, 1000);
+      }
+      getRobotPosition();
+      getRobotRealTimeStatus();
+      getRealTimeOrderState();
+    });
     //待对接（设置请求的周期）
     onMounted(() => {
       // 组件挂载后立即执行一次请求
-      getRealTimeStatus();
-      getRealTimeOrderList();
+      getRobotPosition();
+      getRobotRealTimeStatus();
+      getRealTimeOrderState();
     });
-
-    onUnmounted(() => {});
+    onDeactivated(() => {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    });
+    onUnmounted(() => {
+      if (intervalId.value) {
+        clearInterval(intervalId.value);
+        intervalId.value = null;
+      }
+    });
     return {
       orderList,
       robotId,
       realtimeStatus,
       colorStyle,
       powerLength,
+      robotPosition,
+      robotVelocity,
+      stateForm,
+      currentTime,
     };
   },
 };
@@ -202,7 +352,7 @@ export default {
   top: 30px;
 }
 .first-sight-header {
-  width: 756px;
+  width: 929px;
   height: 48px;
   background-color: white;
   display: flex;
@@ -215,7 +365,7 @@ export default {
 }
 .first-sight-content {
   position: absolute;
-  width: 756px;
+  width: 929px;
   height: 550px;
   left: 0px;
   top: 50.5px;
@@ -293,5 +443,14 @@ export default {
   width: 370px;
   top: 85px;
   left: 20px;
+}
+.state-station {
+  position: absolute;
+  width: 240px;
+  right: 0px;
+  height: 600px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 </style>

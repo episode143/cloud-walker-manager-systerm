@@ -271,8 +271,8 @@ export default {
         ElMessage.error("头像上传失败，请检查网络连接。");
         console.error("Upload error:", error);
       } finally {
-        adminAvatarUrl.value = imageUrl.value;
         modifyAvatarDialogVisible.value = false;
+        location.reload();
       }
     };
     //提交表单

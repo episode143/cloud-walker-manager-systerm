@@ -5,14 +5,14 @@
       <ReturnIcon :link="'/admin/robots/maintenance'" />
     </div>
 
-    <div class="part-description-box" style="grid-area: box1">
+    <div class="part-description-box" style="grid-area: box1; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
       <div class="icon-box" style="background-color: white">
         <div style="display: flex; justify-content: center; align-items: center; height: 42px; width: 42px; border-radius: 50%; border: 3px solid #409eff">
           <i class="iconfont icon-shiping-xue" style="color: #409EFF"></i>
         </div>
       </div>
       <span class="part-name" style="color: #409EFF">摄像头</span>
-      <div style="width: 100%; position: absolute; height: 150px; border-radius: 8px; bottom: 0px; background-color: white">
+      <div style="width: 100%; position: absolute; height: 150px; border-radius: 8px; bottom: 0px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
         <div class="warp">
           <div class="real-example1" style="border: 9px solid #409EFF"></div>
         </div>
@@ -20,14 +20,14 @@
       <span class="warehouse-left-number">库存{{ partsInventory[0] }}件</span>
     </div>
 
-    <div class="part-description-box" style="grid-area: box2">
+    <div class="part-description-box" style="grid-area: box2;background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
       <div class="icon-box" style="background-color: white">
         <div style="display: flex; justify-content: center; align-items: center; height: 42px; width: 42px; border-radius: 50%; border: 3px solid #409EFF">
           <i class="iconfont icon-leida" style="color: #409EFF"></i>
         </div>
       </div>
       <span class="part-name" style="color: #409EFF">雷达</span>
-      <div style="width: 100%; position: absolute; height: 150px; border-radius: 8px; bottom: 0px; background-color: white">
+      <div style="width: 100%; position: absolute; height: 150px; border-radius: 8px; bottom: 0px; background-color: white;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
         <div class="warp">
           <div class="real-example2" style="border: 9px solid #409EFF"></div>
         </div>
@@ -35,14 +35,14 @@
       <span class="warehouse-left-number">库存{{ partsInventory[1] }}件</span>
     </div>
 
-    <div class="part-description-box" style="grid-area: box3">
+    <div class="part-description-box" style="grid-area: box3; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
       <div class="icon-box" style="background-color: white">
         <div style="display: flex; justify-content: center; align-items: center; height: 42px; width: 42px; border-radius: 50%; border: 3px solid #409EFF">
           <i class="iconfont icon-dipanzhuangjia" style="color: #409EFF"></i>
         </div>
       </div>
       <span class="part-name" style="color: #409EFF">底盘</span>
-      <div style="width: 100%; position: absolute; height: 150px; border-radius: 8px; bottom: 0px; background-color: white">
+      <div style="width: 100%; position: absolute; height: 150px; border-radius: 8px; bottom: 0px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
         <div class="warp">
           <div class="real-example3" style="border: 9px solid #409EFF"></div>
         </div>
@@ -50,14 +50,14 @@
       <span class="warehouse-left-number">库存{{ partsInventory[2] }}件</span>
     </div>
 
-    <div class="part-description-box" style="grid-area: box4">
+    <div class="part-description-box" style="grid-area: box4; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
       <div class="icon-box" style="background-color: white">
         <div style="display: flex; justify-content: center; align-items: center; height: 42px; width: 42px; border-radius: 50%; border: 3px solid #409EFF">
           <i class="iconfont icon-fadianji" style="color: #409EFF"></i>
         </div>
       </div>
       <span class="part-name" style="color: #409EFF">电机</span>
-      <div style="width: 100%; position: absolute; height: 150px; border-radius: 8px; bottom: 0px; background-color: white">
+      <div style="width: 100%; position: absolute; height: 150px; border-radius: 8px; bottom: 0px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
         <div class="warp">
           <div class="real-example4" style="border: 9px solid #409EFF"></div>
         </div>
@@ -65,14 +65,14 @@
       <span class="warehouse-left-number">库存{{ partsInventory[3] }}件</span>
     </div>
 
-    <div class="part-description-box" style="grid-area: box5">
+    <div class="part-description-box" style="grid-area: box5; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
       <div class="icon-box" style="background-color: white">
         <div style="display: flex; justify-content: center; align-items: center; height: 42px; width: 42px; border-radius: 50%; border: 3px solid #409EFF">
           <i class="iconfont icon-cpuchuliqi" style="color: #409EFF"></i>
         </div>
       </div>
       <span class="part-name" style="color: #409EFF">处理器</span>
-      <div style="width: 100%; position: absolute; height: 150px; border-radius: 8px; bottom: 0px; background-color: white">
+      <div style="width: 100%; position: absolute; height: 150px; border-radius: 8px; bottom: 0px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
         <div class="warp">
           <div class="real-example5" style="border: 9px solid #409EFF"></div>
         </div>
@@ -80,14 +80,14 @@
       <span class="warehouse-left-number">库存{{ partsInventory[4] }}件</span>
     </div>
 
-    <div class="part-description-box" style="grid-area: box6">
+    <div class="part-description-box" style="grid-area: box6;background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
       <div class="icon-box" style="background-color: white">
         <div style="display: flex; justify-content: center; align-items: center; height: 42px; width: 42px; border-radius: 50%; border: 3px solid #409EFF">
           <i class="iconfont icon-luyouqi" style="color: #409EFF"></i>
         </div>
       </div>
       <span class="part-name" style="color: #409EFF">路由器</span>
-      <div style="width: 100%; position: absolute; height: 150px; border-radius: 8px; bottom: 0px; background-color: white">
+      <div style="width: 100%; position: absolute; height: 150px; border-radius: 8px; bottom: 0px; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
         <div class="warp">
           <div class="real-example6" style="border: 9px solid #409EFF"></div>
         </div>
@@ -98,32 +98,32 @@
     <div class="alarm-waterline-setting-station" style="grid-area: setting-station">
       <!-- <span style="font-size: 20px; color: #294567; font-weight: 550; position: absolute; top: 5px; left: 20px"> 各零件存量水位线 </span> -->
       <div style="height: 100%; width: 100%; position: absolute; top: -50px; background-color: transparent; border-radius: 8px" class="waterline-grid-box">
-        <div class="field-box-left" style="grid-area: waterline1">
+        <div class="field-box-left" style="grid-area: waterline1; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); background-color: white;">
           <i class="iconfont icon-tishi1" style="color: #409eff"></i>
           <input type="number" v-model="partsInventoryWaterLine.cameraNumber" style="width: 90px" :readonly="notChange" :class="{ 'readonly-state': notChange }" />
         </div>
 
-        <div class="field-box-left" style="grid-area: waterline2">
+        <div class="field-box-left" style="grid-area: waterline2; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); background-color: white;">
           <i class="iconfont icon-tishi1" style="color: #409EFF"></i>
           <input type="number" v-model="partsInventoryWaterLine.radarNumber" style="width: 90px" :readonly="notChange" :class="{ 'readonly-state': notChange }" />
         </div>
 
-        <div class="field-box-left" style="grid-area: waterline3">
+        <div class="field-box-left" style="grid-area: waterline3; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); background-color: white;">
           <i class="iconfont icon-tishi1" style="color: #409EFF"></i>
           <input type="number" v-model="partsInventoryWaterLine.chassisNumber" style="width: 90px" :readonly="notChange" :class="{ 'readonly-state': notChange }" />
         </div>
 
-        <div class="field-box-right" style="grid-area: waterline4">
+        <div class="field-box-right" style="grid-area: waterline4; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); background-color: white;">
           <i class="iconfont icon-tishi1" style="color: #409EFF"></i>
           <input type="number" v-model="partsInventoryWaterLine.electricalMachineryNumber" style="width: 90px" :readonly="notChange" :class="{ 'readonly-state': notChange }" />
         </div>
 
-        <div class="field-box-right" style="grid-area: waterline5">
+        <div class="field-box-right" style="grid-area: waterline5; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); background-color: white;">
           <i class="iconfont icon-tishi1" style="color: #409EFF"></i>
           <input type="number" v-model="partsInventoryWaterLine.processorNumber" style="width: 90px" :readonly="notChange" :class="{ 'readonly-state': notChange }" />
         </div>
 
-        <div class="field-box-right" style="grid-area: waterline6">
+        <div class="field-box-right" style="grid-area: waterline6; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); background-color: white;">
           <i class="iconfont icon-tishi1" style="color: #409EFF"></i>
           <input type="number" v-model="partsInventoryWaterLine.routerNumber" style="width: 90px" :readonly="notChange" :class="{ 'readonly-state': notChange }" />
         </div>
@@ -180,22 +180,22 @@
             <i class="iconfont icon-rukudan" style="font-size: 20px; color: white"></i>
           </button>
         </div>
-        <div style="height: 100%; width: 786px; position: absolute; left: 0px; background-color: white; border-radius: 8px">
+        <div style="height: 100%; width: 786px; position: absolute; left: 0px; background-color: white; border-radius: 8px" class="waterline-field-box">
           <div style="height: 100%; width: 400px; position: absolute; left: 330px; background-color: transparent">
             <e-charts class="chart" :option="option"></e-charts>
           </div>
-          <h1 style="position: absolute; top: 10px; left: 20px; margin: 0px">进货数目</h1>
-          <h1 style="position: absolute; top: 55px; left: 20px; margin: 0px;color: rgb(115.2, 117.6, 122.4);">摄像头</h1>
+          <h1 style="position: absolute; top: 10px; left: 20px; margin: 0px;color: #606266;">进货数目</h1>
+          <h1 style="position: absolute; top: 55px; left: 20px; margin: 0px;color: #606266;">摄像头</h1>
           <h1 style="position: absolute; top: 58px; left: 108px; margin: 0px; color: #0482FF">{{ purchaseQuantity[0] }}</h1>
-          <h1 style="position: absolute; top: 125px; left: 20px; margin: 0px; color: rgb(115.2, 117.6, 122.4);">雷达</h1>
+          <h1 style="position: absolute; top: 125px; left: 20px; margin: 0px; color: #606266;">雷达</h1>
           <h1 style="position: absolute; top: 129px; left: 108px; margin: 0px; color: #0482FF">{{ purchaseQuantity[1] }}</h1>
-          <h1 style="position: absolute; top: 195px; left: 20px; margin: 0px; color: rgb(115.2, 117.6, 122.4);">底盘</h1>
+          <h1 style="position: absolute; top: 195px; left: 20px; margin: 0px; color: #606266;">底盘</h1>
           <h1 style="position: absolute; top: 199px; left: 108px; margin: 0px; color: #0482FF">{{ purchaseQuantity[2] }}</h1>
-          <h1 style="position: absolute; top: 55px; left: 204px; margin: 0px; color: rgb(115.2, 117.6, 122.4);">电机</h1>
+          <h1 style="position: absolute; top: 55px; left: 204px; margin: 0px; color: #606266;">电机</h1>
           <h1 style="position: absolute; top: 58px; left: 292px; margin: 0px; color: #0482FF">{{ purchaseQuantity[3] }}</h1>
-          <h1 style="position: absolute; top: 125px; left: 204px; margin: 0px; color: rgb(115.2, 117.6, 122.4);">处理器</h1>
+          <h1 style="position: absolute; top: 125px; left: 204px; margin: 0px; color: #606266;">处理器</h1>
           <h1 style="position: absolute; top: 129px; left: 292px; margin: 0px; color: #0482FF">{{ purchaseQuantity[4] }}</h1>
-          <h1 style="position: absolute; top: 195px; left: 204px; margin: 0px; color: rgb(115.2, 117.6, 122.4);">路由器</h1>
+          <h1 style="position: absolute; top: 195px; left: 204px; margin: 0px; color: #606266;">路由器</h1>
           <h1 style="position: absolute; top: 199px; left: 292px; margin: 0px; color: #0482FF">{{ purchaseQuantity[5] }}</h1>
         </div>
       </div>
@@ -307,7 +307,7 @@ export default {
                 ],
                 name: "水位线",
                 itemStyle: {
-                  color: "rgb(199.5, 201, 204)", // 设置 Allocated Budget 的颜色为橙色
+                  color: "#606266", // 设置 Allocated Budget 的颜色为橙色
                 },
               },
               {
@@ -669,6 +669,7 @@ export default {
   left: 21px;
   bottom: 19px;
   background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .icon-box .iconfont {
   font-size: 32px;
@@ -700,9 +701,10 @@ export default {
 .warehouse-left-number {
   position: absolute;
   top: 70px;
-  left: 50px;
-  font-size: 20px;
-  color: #294567;
+  left: 53px;
+  font-size: 19px;
+  font-weight: 550;
+  color: #606266;
 }
 .field-box-left {
   position: absolute;
@@ -839,5 +841,8 @@ th {
 
 .custom-file-input:hover {
   background-color: #409eff; /* 鼠标悬停时的背景颜色 */
+}
+.waterline-field-box h1{
+  font-size: 19px;
 }
 </style>

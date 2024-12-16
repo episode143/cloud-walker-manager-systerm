@@ -324,6 +324,8 @@ export default {
       nextTick(() => {
         tableRef.value?.doLayout();
       });
+      getOnlineMarketingActivityList();
+      getMarketingActivityPageTable();
     });
     return {
       tableRef,

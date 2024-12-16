@@ -203,9 +203,9 @@ const getRealTimeStatus = async (params) => {
     throw error;
   }
 };
-const getRealTimeOrderList = async (params) => {
+const getRealTimeOrderState = async (params) => {
   try {
-    const response = await instance.post(paths.realTimeOrderList, params);
+    const response = await instance.post(paths.realTimeOrderState, params);
     return response;
   } catch (error) {
     console.error("机器人实时任务订单列表请求失败", error);
@@ -586,7 +586,7 @@ const api = {
   getBelongStationList,
   getRobotPartsInventory,
   getRealTimeStatus,
-  getRealTimeOrderList,
+  getRealTimeOrderState,
   updatePartsWaterLine,
   getPartsPurchaseList,
   getPartsWarehoused,

@@ -97,8 +97,15 @@ export default {
 
 .icon-container1 {
   position: absolute;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background-color: transparent;
   top: 50%;
   left: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transform: translate(-50%, -50%);
   font-size: 2em; /* 设置图标大小 */
   color: #40a0ffd7; /* 设置图标颜色 */
@@ -107,8 +114,15 @@ export default {
 
 .icon-container2 {
   position: absolute;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background-color: transparent;
   top: 50%;
   left: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transform: translate(-50%, -50%);
   font-size: 2em; /* 设置图标大小 */
   color: #40a0ffd7; /* 设置图标颜色 */
@@ -117,8 +131,15 @@ export default {
 
 .icon-container3 {
   position: absolute;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background-color: transparent;
   top: 50%;
   left: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transform: translate(-50%, -50%);
   font-size: 2em; /* 设置图标大小 */
   color: #40a0ffd7; /* 设置图标颜色 */
@@ -127,8 +148,15 @@ export default {
 
 .icon-container4 {
   position: absolute;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background-color:  transparent;
   top: 50%;
   left: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transform: translate(-50%, -50%);
   font-size: 2em; /* 设置图标大小 */
   color: #40a0ffd7; /* 设置图标颜色 */
@@ -137,8 +165,15 @@ export default {
 
 .icon-container5 {
   position: absolute;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background-color: transparent;
   top: 50%;
   left: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transform: translate(-50%, -50%);
   font-size: 2em; /* 设置图标大小 */
   color: #40a0ffd7; /* 设置图标颜色 */
@@ -146,22 +181,37 @@ export default {
 }
 
 .inner1 {
+  height: 80%;
+  width: 80%;
+  border-radius: 50%;
   animation: spin-reverse1 8s infinite linear;
 }
 
 .inner2 {
+  height: 80%;
+  width: 80%;
+  border-radius: 50%;
   animation: spin-reverse2 8s infinite linear;
 }
 
 .inner3 {
+  height: 80%;
+  width: 80%;
+  border-radius: 50%;
   animation: spin-reverse3 8s infinite linear;
 }
 
 .inner4 {
+  height: 80%;
+  width: 80%;
+  border-radius: 50%;
   animation: spin-reverse4 8s infinite linear;
 }
 
 .inner5 {
+  height: 80%;
+  width: 80%;
+  border-radius: 50%;
   animation: spin-reverse5 8s infinite linear;
 }
 

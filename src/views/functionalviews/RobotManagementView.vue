@@ -52,7 +52,9 @@
           <el-table-column prop="orderNumber" label="配送订单数" align="center"></el-table-column>
           <el-table-column label="实时状态" align="center" width="180">
             <template v-slot:default="scope">
-              <el-button size="default" @click="handleCheckRobotState(scope.row.robotId)" style="background-color: transparent; color: #03bf16; border: none; font-size: 18px">查看机器人</el-button>
+              <el-button size="default" @click="handleCheckRobotState(scope.row.robotId, scope.row.state)" style="background-color: transparent; color: #03bf16; border: none; font-size: 18px"
+                >查看机器人</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -154,7 +156,7 @@ export default {
     //机器人损坏的部位
     const robotRepairType = ref("");
     const robotRepairPartId = ref(0);
-    
+
     const repairRobotDialogVisibility = ref(false);
     //机器人状态列表
     const operatingStates = ref([
@@ -202,8 +204,16 @@ export default {
       router.push({ path: `/admin/robots/${robotId}/route` });
     };
     //点击查看机器人状态跳转机器人状态
-    const handleCheckRobotState = (robotId) => {
-      router.push({ path: `/admin/robots/${robotId}/state` });
+    const handleCheckRobotState = (robotId, state) => {
+      if (state === "忙碌") {
+        router.push({ path: `/admin/robots/${robotId}/state` });
+      } else {
+        ElNotification({
+          title: "当前机器人空闲",
+          message: "实时状态为空闲，无法查看更加详细信息",
+          type: "info",
+        });
+      }
     };
     //切换当前页
     const handleCurrentChange = (val) => {
@@ -280,7 +290,7 @@ export default {
       try {
         const params = {
           robotId: parseInt(selectedRobotId.value, 10),
-          partId : robotRepairPartId.value,
+          partId: robotRepairPartId.value,
         };
         console.log(params);
         const response = await api.getRobotRepaired(params);
@@ -324,12 +334,12 @@ export default {
         console.error("获取机器人损坏情况失败", error);
       }
     };
-    const cancleRepair = ()=>{
-      selectedRobotId.value  = 0;
+    const cancleRepair = () => {
+      selectedRobotId.value = 0;
       repairRobotDialogVisibility.value = false;
       robotRepairType.value = "";
       robotRepairPartId.value = 0;
-    }
+    };
     //返回
     onMounted(() => {
       nextTick(() => {

@@ -97,12 +97,12 @@ nav a.router-link-exact-active {
   justify-content: center;
   align-items: center;
   color: #294567;
-  border: 1px solid #294567;
+  border: 0px solid #294567;
 }
 
 .el-popper.is-customized .el-popper__arrow::before {
   background-color: #FAFCFF;
-  border: 1px solid #294567;
+  border: 0px solid #294567;
   right: 0;
 }
 

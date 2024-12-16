@@ -126,7 +126,7 @@
 <script>
 import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import ReturnIcon from "../../components/ReturnIcon.vue";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref,onActivated} from "vue";
 import { useRoute } from "vue-router";
 import api from "../../api/index";
 import { ElNotification } from "element-plus";
@@ -300,7 +300,7 @@ export default {
         const params = {
           currentPage: currentPage.value,
           pageSize: 10,
-          siteId: route.params.stationId,
+          siteId: parseInt(route.params.stationId,10),
           status: selectedContainerState.value,
           cabinetType: selectedContainerSize.value,
           packageType: selectedPackageType.value,
@@ -331,7 +331,7 @@ export default {
         const response = await api.getStationDetailedInformation(params);
         if (response.code === 15071) {
           operatingStatus.value = response.data;
-          //console.log(operatingStatus.value);
+          console.log(response);
         } else {
           console.error("获取站点详细信息失败", response.msg);
         }
@@ -353,7 +353,6 @@ export default {
         };
         const response = await api.clearUpOvertimeContainers(params);
         if (response.code === 15081) {
-          //console.log(response.data);
           if (response.data.pageData.length === 0) {
             ElNotification({
               title: "本站点无超时货柜",
@@ -405,6 +404,10 @@ export default {
         console.error("一键清理超时货柜失败", error);
       }
     };
+    onActivated(()=>{
+      getCabinetPageTable();
+      getStationDetailedInformation();
+    });
     onMounted(() => {
       getCabinetPageTable();
       getStationDetailedInformation();
