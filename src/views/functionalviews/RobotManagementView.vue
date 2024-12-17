@@ -46,7 +46,7 @@
             <template v-slot:default="scope">
               <div style="height: 34px; display: flex; align-items: center; justify-content: center">
                 <i class="iconfont icon-dingwei" style="font-size: 24px; color: #03bf16" @click="handleCheckRobotPosition(scope.row.robotId, scope.row.state)"></i>
-              </div>``
+              </div>
             </template>
           </el-table-column>
           <el-table-column prop="orderNumber" label="配送订单数" align="center"></el-table-column>
