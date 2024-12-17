@@ -1,5 +1,5 @@
 const base = {
-  //baseUrl: "https://apifoxmock.com/m1/5326600-4997107-default", // 替换为你的 API 基础 URL
+  // baseUrl: "https://apifoxmock.com/m1/5326600-4997107-default", // 替换为你的 API 基础 URL
   baseUrl:"http://120.46.199.126:8080",
 
 };

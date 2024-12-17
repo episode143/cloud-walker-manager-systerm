@@ -70,6 +70,9 @@ const routes = [
             path: ":robotId/route",
             name: "robotroute",
             component: () => import("../views/functionalviews/RobotRealTimeRouteView.vue"),
+            meta: {
+              keepAlive: false,
+            }
           },
           {
             path: ":robotId/state",

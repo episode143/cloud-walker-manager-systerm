@@ -528,6 +528,8 @@ const getRobotLat = async (robotId) => {
 //--------------------- dht + 机器人目标请求点
 const getRobotStartAndDest = async (robotId) => {
   try {
+
+    console.log('getRobotStartAndDest',robotId)
     return await instance.post(paths.robotDest, robotId);
   } catch (error) {
     console.error("机器人目标点请求失败", error);

@@ -31,10 +31,10 @@ import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import ReturnIcon from "../../components/ReturnIcon.vue";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import api from "../../api/index";
-import { onMounted, onUnmounted, ref } from "vue";
+import { watch, onMounted,  onUnmounted,  ref } from "vue";
 
 const route = useRoute();
-const robotId = route.params.robotId;
+let robotId = route.params.robotId;
 
 let map = null;
 let start = ref({
@@ -50,26 +50,62 @@ let location = ref({
   lng: 0,
 });
 
-const getStartAndDest = async () => {
-  const res = await api.getRobotStartAndDest({
-    robotId: robotId,
-  });
-  start.value.lng = res.data.from.longitude;
-  start.value.lat = res.data.from.latitude;
-  destination.value.lng = res.data.to.longitude;
-  destination.value.lat = res.data.to.latitude;
-};
+
 
 const getLocation = async () => {
-  const res = await api.getRobotLat({
-    robotId: robotId,
-  });
-  console.log(res);
+  try {
 
-  location.value.lng = res.data.longitude;
-  location.value.lat = res.data.latitude;
+    const req = {
+      robotId: parseInt(robotId, 10),
+    };
+    const res = await api.getRobotLat(req);
+
+    console.log('getLocation req:', req);
+    console.log('getLocation res:', res);
+
+    location.value.lng = res.data.longitude;
+    location.value.lat = res.data.latitude;
+
+  } catch (error) {
+    console.error('getLocation error', error);
+  }
+
+};
+const addMarker = (position, content) => {
+  try {
+    let marker = new AMap.Marker({
+      position: position,
+      // icon: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
+      title: content,
+      // content: `<div class="marker">${content}</div>`,
+    });
+    map.add(marker);
+    console.log("add marker", position, content);
+  } catch (e) {
+    console.log(e);
+  }
+
 };
 
+const getStartAndDest = async () => {
+  try {
+    const req = {
+      robotId: parseInt(robotId, 10),
+    };
+    const res = await api.getRobotStartAndDest(req);
+
+    console.log('getStartAndDest req:', req);
+    console.log('getStartAndDest res:', res);
+
+    start.value.lng = res.data.from.longitude;
+    start.value.lat = res.data.from.latitude;
+    destination.value.lng = res.data.to.longitude;
+    destination.value.lat = res.data.to.latitude;
+  } catch (error) {
+    console.error('getStartAndDest error', error);
+  }
+
+};
 const addTrace = () => {
   AMap.plugin("AMap.Walking", function () {
     let walking = new AMap.Walking({
@@ -83,41 +119,109 @@ const addTrace = () => {
     let des_lat = destination.value.lat;
     let des_lng = destination.value.lng;
 
-    walking.search(new AMap.LngLat(sta_lat, sta_lng), new AMap.LngLat(des_lat, des_lng));
+    walking.search(new AMap.LngLat(sta_lng, sta_lat), new AMap.LngLat(des_lng, des_lat));
   });
 };
 
-onMounted(async () => {
-  await getStartAndDest();
+// onMounted(async () => {
+//   const status = sessionStorage.getItem("robotState") === '忙碌';
+//   console.log('robot status:', status);
+//   if (status) { await getStartAndDest(); }
+//   await getLocation();
+
+//   window._AMapSecurityConfig = {
+//     securityJsCode: "80a9abd3217001b61b8c314933584e36",
+//   };
+
+//   AMapLoader.load({
+//     key: "a6f37ea40ac5c9ad84fdbb84c4f13aa9", // 申请好的Web端开发者Key，首次调用 load 时必填
+//     version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
+//     plugins: ["AMap.Scale", "AMap.ToolBar", "AMap.ControlBar", "AMap.HawkEye", "AMap.Walking"], // 需要使用的插件列表
+//   })
+//     .then((AMap) => {
+//       map = new AMap.Map("mapContainer", {
+//         zoom: 22,
+//         center: new AMap.LngLat(location.value.lng, location.value.lat), // 默认天马学生公寓为中心
+//       });
+
+//       if (status) {  addTrace(); }
+//       addMarker(new AMap.LngLat(location.value.lng, location.value.lat), "robot");
+
+//     })
+//     .catch((e) => {
+//       console.log(e);
+//     });
+// });
+// onUnmounted(() => {
+//   map?.destroy();
+// });
+
+
+// 监听路由参数变化
+watch(
+  () => route.params.robotId,
+  async (newId) => {
+    if (newId) {
+      robotId = newId;
+      // 重新初始化地图
+      await initializeMap();
+    }
+  }
+);
+
+// 将地图初始化逻辑封装成函数
+const initializeMap = async () => {
+  // 清除旧的地图实例
+  if (map) {
+    map.destroy();
+    map = null;
+  }
+
+  const status = sessionStorage.getItem("robotState") === '忙碌';
+  if (status) { 
+    await getStartAndDest(); 
+  }
   await getLocation();
-  console.log([location.value.lat, location.value.lng]);
 
   window._AMapSecurityConfig = {
     securityJsCode: "80a9abd3217001b61b8c314933584e36",
   };
 
-  AMapLoader.load({
-    key: "a6f37ea40ac5c9ad84fdbb84c4f13aa9", // 申请好的Web端开发者Key，首次调用 load 时必填
-    version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-    plugins: ["AMap.Scale", "AMap.ToolBar", "AMap.ControlBar", "AMap.HawkEye", "AMap.Walking"], // 需要使用的插件列表
-  })
-    .then((AMap) => {
+  try {
+    await AMapLoader.load({
+      key: "a6f37ea40ac5c9ad84fdbb84c4f13aa9",
+      version: "2.0",
+      plugins: ["AMap.Scale", "AMap.ToolBar", "AMap.ControlBar", "AMap.HawkEye", "AMap.Walking"],
+    }).then((AMap) => {
       map = new AMap.Map("mapContainer", {
         zoom: 22,
-        center: new AMap.LngLat(location.value.lat, location.value.lng), // 默认天马学生公寓为中心
+        center: new AMap.LngLat(location.value.lng, location.value.lat),
       });
-      console.log("before trace");
-      addTrace();
-      console.log("after trace");
-    })
-    .catch((e) => {
-      console.log(e);
+
+      addMarker(new AMap.LngLat(location.value.lng, location.value.lat), "robot");
+      if (status) {
+        addTrace();
+      } 
     });
+  } catch (e) {
+    console.error("地图初始化失败:", e);
+  }
+};
+
+// 其他方法保持不变...
+
+onMounted(async () => {
+  await initializeMap();
 });
 
 onUnmounted(() => {
-  map?.destroy();
+  if (map) {
+    map.destroy();
+    map = null;
+  }
 });
+
+
 </script>
 <style scoped>
 .user-detailed-onformation-grid {
