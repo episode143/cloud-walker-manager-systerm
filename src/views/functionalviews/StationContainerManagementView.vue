@@ -190,7 +190,7 @@
 <script>
 import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import ReturnIcon from "../../components/ReturnIcon.vue";
-import { computed, onMounted, ref,onActivated} from "vue";
+import { computed, onMounted, ref} from "vue";
 import { useRoute } from "vue-router";
 import api from "../../api/index";
 import { ElNotification } from "element-plus";
@@ -368,11 +368,7 @@ export default {
         const params = {
           currentPage: currentPage.value,
           pageSize: 10,
-<<<<<<< HEAD
-          siteId: parseInt(route.params.stationId,10),
-=======
           siteId: parseInt(route.params.stationId, 10),
->>>>>>> 108daaadb1b231010ec68bae63f609c4130ccc99
           status: selectedContainerState.value,
           cabinetType: selectedContainerSize.value,
           packageType: selectedPackageType.value,
@@ -476,12 +472,6 @@ export default {
         console.error("一键清理超时货柜失败", error);
       }
     };
-<<<<<<< HEAD
-    onActivated(()=>{
-      getCabinetPageTable();
-      getStationDetailedInformation();
-    });
-=======
 
     const cabs = ref({
       small: [],
@@ -541,7 +531,6 @@ export default {
 
 
 
->>>>>>> 108daaadb1b231010ec68bae63f609c4130ccc99
     onMounted(() => {
       console.log("mounted");
       getCabinetPageTable();
