@@ -45,8 +45,8 @@
           <el-table-column label="当前位置" align="center" width="180" style="padding: none">
             <template v-slot:default="scope">
               <div style="height: 34px; display: flex; align-items: center; justify-content: center">
-                <i class="iconfont icon-dingwei" style="font-size: 24px; color: #03bf16" @click="handleCheckRobotPosition(scope.row.robotId)"></i>
-              </div>
+                <i class="iconfont icon-dingwei" style="font-size: 24px; color: #03bf16" @click="handleCheckRobotPosition(scope.row.robotId, scope.row.state)"></i>
+              </div>``
             </template>
           </el-table-column>
           <el-table-column prop="orderNumber" label="配送订单数" align="center"></el-table-column>
@@ -200,8 +200,10 @@ export default {
       }
     };
     //点击查看机器人位置跳转实时路径图
-    const handleCheckRobotPosition = (robotId) => {
+    const handleCheckRobotPosition = (robotId , state) => {
       router.push({ path: `/admin/robots/${robotId}/route` });
+      sessionStorage.setItem("robotState", state);
+      console.log('set seesion roboState', sessionStorage.getItem('robotState'));
     };
     //点击查看机器人状态跳转机器人状态
     const handleCheckRobotState = (robotId, state) => {

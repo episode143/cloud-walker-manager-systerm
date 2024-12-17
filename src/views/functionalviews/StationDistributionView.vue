@@ -170,6 +170,74 @@ export default {
     StationRobotDashboardProgress,
   },
   setup() {
+
+
+    const percentage = ref(20);
+    const customColor = ref("#409eff");
+    const colorObject = [
+      { color: "#909399", percentage: 20 },
+      { color: "#e6a23c", percentage: 40 },
+      { color: "#67c23a", percentage: 100 },
+    ];
+    const items = ref([
+      {
+        field1: "回头客",
+        todayField: "过去30天",
+        statistics1: "2208",
+        changeText: "",
+        statistics2: "",
+        color: "#B77ED4",
+        buttonColor: "#AA66CC",
+        changecolor: "#3572F3",
+        iconClass: "icon-yonghuzengchang",
+      },
+      {
+        field1: "新用户",
+        todayField: "过去30天",
+        statistics1: "802.5",
+        changeText: "",
+        statistics2: "",
+        color: "#5AC3EA",
+        buttonColor: "rgba(0,0,255,0.13)",
+        changecolor: "#F59A23",
+        iconClass: "icon-qian",
+      },
+      {
+        field1: "用户粘性占比",
+        todayField: "过去30天",
+        statistics1: "34%",
+        changeText: "",
+        statistics2: "",
+        color: "#41D282",
+        buttonColor: "#28C76F",
+        changecolor: "#8400FF",
+        iconClass: "icon-robot",
+      },
+    ]);
+
+    const operatingStatus = ref({
+      mostBusySiteName: "天马学生公寓",
+      mostBusySiteCount: 1302,
+      avgDayRobotOrderCount: 0.83,
+      monthCompletedOrderCount: 523,
+    });
+
+    const getStationsOperatingStatus = async () => {
+      try {
+        const response = await api.getStationsOperatingStatus();
+        if (response.code === 15021) {
+          operatingStatus.value.mostBusySiteName = response.data.mostBusySiteName;
+          operatingStatus.value.mostBusySiteCount = response.data.mostBusySiteCount;
+          operatingStatus.value.avgDayRobotOrderCount = response.data.avgDayRobotOrderCount;
+          operatingStatus.value.monthCompletedOrderCount = response.data.monthCompletedOrderCount;
+        } else {
+          console.error("获取站点运维情况请求失败", response.msg);
+        }
+      } catch (error) {
+        console.error("获取站点运维情况请求失败", error);
+      }
+    };
+
     // 站点信息
     const sites = [
       {},
@@ -242,13 +310,13 @@ export default {
       },
     ];
     // 切换地图
-    const selectedRegion = ref(1);
+    let selectedRegion = 1;
 
     const changeSite = async () => {
-      map.setCenter(sites[selectedRegion.value].center);
+      map.setCenter(sites[selectedRegion].center);
       try {
         const response = await api.getSiteDetails({
-          siteName: sites[selectedRegion.value].name,
+          siteName: sites[selectedRegion].name,
         });
 
         if (response.code === 15031) {
@@ -266,10 +334,10 @@ export default {
           // cabinetInfo.value.mid.total = response.data.cabinetSizeCount[0].value;
           // cabinetInfo.value.small.total = response.data.cabinetSizeCount[1].value;
         } else {
-          console.error(`获取${sites[selectedRegion.value].name}数据失败`, response.msg);
+          console.error(`获取${sites[selectedRegion].name}数据失败`, response.msg);
         }
       } catch (e) {
-        console.log(`获取${sites[selectedRegion.value].name}数据失败`, e);
+        console.log(`获取${sites[selectedRegion].name}数据失败`, e);
       }
     };
     // 地图加载
@@ -287,6 +355,7 @@ export default {
         strokeDasharray: [5, 5],
       });
       polygon.on("mouseover", () => {
+        // console.log("mouseover polygon", i);
         polygon.setOptions({
           fillOpacity: 0.7,
           fillColor: "#7bccc4",
@@ -294,6 +363,7 @@ export default {
       });
 
       polygon.on("mouseout", () => {
+        // console.log("mouseout polygon", i);
         polygon.setOptions({
           fillOpacity: 0.5,
           fillColor: "#ccebc5",
@@ -301,21 +371,27 @@ export default {
       });
 
       polygon.on("click", () => {
-        selectedRegion.value = i;
-        console.log("change site to", i);
+        selectedRegion = i;
+        // console.log("change site to", i);
         changeSite();
       });
 
       map.add(polygon);
     };
     const addMarker = (position, content) => {
-      let marker = new AMap.Marker({
-        position: position,
-        // icon: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
-        title: content,
-        // content: `<div class="marker">${content}</div>`,
-      });
-      map.add(marker);
+      try {
+        let marker = new AMap.Marker({
+          position: position,
+          // icon: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
+          title: content,
+          // content: `<div class="marker">${content}</div>`,
+        });
+        map.add(marker);
+        // console.log("add marker", position, content);
+      } catch (e) {
+        console.log(e);
+      }
+
     };
     const siteInfo = ref({
       todayPackageCount: 1034,
@@ -326,71 +402,36 @@ export default {
       todayWaitOrderCount: 50,
     });
 
-    const percentage = ref(20);
-    const customColor = ref("#409eff");
-    const colorObject = [
-      { color: "#909399", percentage: 20 },
-      { color: "#e6a23c", percentage: 40 },
-      { color: "#67c23a", percentage: 100 },
-    ];
-    const items = ref([
-      {
-        field1: "回头客",
-        todayField: "过去30天",
-        statistics1: "2208",
-        changeText: "",
-        statistics2: "",
-        color: "#B77ED4",
-        buttonColor: "#AA66CC",
-        changecolor: "#3572F3",
-        iconClass: "icon-yonghuzengchang",
-      },
-      {
-        field1: "新用户",
-        todayField: "过去30天",
-        statistics1: "802.5",
-        changeText: "",
-        statistics2: "",
-        color: "#5AC3EA",
-        buttonColor: "rgba(0,0,255,0.13)",
-        changecolor: "#F59A23",
-        iconClass: "icon-qian",
-      },
-      {
-        field1: "用户粘性占比",
-        todayField: "过去30天",
-        statistics1: "34%",
-        changeText: "",
-        statistics2: "",
-        color: "#41D282",
-        buttonColor: "#28C76F",
-        changecolor: "#8400FF",
-        iconClass: "icon-robot",
-      },
-    ]);
-
-    const operatingStatus = ref({
-      mostBusySiteName: "天马学生公寓",
-      mostBusySiteCount: 1302,
-      avgDayRobotOrderCount: 0.83,
-      monthCompletedOrderCount: 523,
-    });
-
-    const getStationsOperatingStatus = async () => {
-      try {
-        const response = await api.getStationsOperatingStatus();
-        if (response.code === 15021) {
-          operatingStatus.value.mostBusySiteName = response.data.mostBusySiteName;
-          operatingStatus.value.mostBusySiteCount = response.data.mostBusySiteCount;
-          operatingStatus.value.avgDayRobotOrderCount = response.data.avgDayRobotOrderCount;
-          operatingStatus.value.monthCompletedOrderCount = response.data.monthCompletedOrderCount;
+    // 添加机器人坐标
+    
+    const getRobotLocationBySiteId = async (siteId) => {
+      // try {
+        console.log('getRobotLocationBySiteId request:', siteId);
+        const response = await api.getBusyRobotInfoBySiteId({
+          siteId: parseInt(siteId, 10),
+        });
+        if (response.code === 15061) {
+          console.log('getBusyRobotInfoBySiteId:', response.data);
+          return response.data;
         } else {
-          console.error("获取站点运维情况请求失败", response.msg);
+          // console.error(`获取${siteId}正在忙碌机器人数据失败`, response.msg);
         }
-      } catch (error) {
-        console.error("获取站点运维情况请求失败", error);
+      // } catch (e) {
+      //   // console.error(`获取${siteId}正在忙碌机器人数据失败`, e);
+      // }
+    };
+
+    const addAllRobotLoc = async () => {
+      
+      const allLocations = await getRobotLocationBySiteId(selectedRegion);
+
+      for (let i = 0; i < allLocations.length; i++) {
+        let robot = allLocations[i];
+        addMarker([robot.longitude, robot.latitude], robot.id);
       }
     };
+
+
     onMounted(() => {
       window._AMapSecurityConfig = {
         securityJsCode: "80a9abd3217001b61b8c314933584e36",
@@ -402,20 +443,34 @@ export default {
       })
         .then(async (AMap) => {
           map = new AMap.Map("mapContainer", {
+            viewMode: "3D",
             zoom: 17.5,
-            center: sites[selectedRegion.value].center, // 默认天马学生公寓为中心
+            center: sites[selectedRegion].center, // 默认天马学生公寓为中心
+          });
+
+          map.on('click', function(e) {
+            console.log('经度:', e.lnglat.getLng());
+            console.log('纬度:', e.lnglat.getLat());
           });
 
           for (let i = 1; i < sites.length; i++) {
-            await addPolygon(sites[i].path, i);
+            addPolygon(sites[i].path, i);
+            // console.log(i,'-ploygon:',sites[i].path);
             addMarker(sites[i].sitePosition, sites[i].name);
+            // console.log(i,'-marker:',sites[i].sitePosition);
           }
+
+          addAllRobotLoc();
+
+
         })
         .catch((e) => {
           console.log(e);
         });
-      console.log(sites[selectedRegion.value].path);
+      // console.log(sites[selectedRegion].path);
       getStationsOperatingStatus();
+
+
     });
     onUnmounted(() => {
       map?.destroy();
@@ -433,6 +488,9 @@ export default {
       changeSite,
       addPolygon,
       addMarker,
+      addAllRobotLoc,
+      getRobotLocationBySiteId
+
     };
   },
 };
