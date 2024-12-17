@@ -93,11 +93,9 @@
         </el-tooltip>
         <span style="top: 125px; font-weight: 550">本月总存取次数</span>
         <span style="top: 165px">{{ operatingStatus.monthlyWithdrawalCount }}次</span>
-        <el-tooltip content="新增货柜" placement="top" effect="light">
           <button class="displayer-function-button" style="top: 135px; left: 232px">
             <i class="iconfont icon-chakanhuogui" style="font-size: 30px; margin-left: 4px"></i>
           </button>
-        </el-tooltip>
         <span style="top: 220px; font-weight: 550">本月日均存取次数</span>
         <span style="top: 260px">{{ averageDailyWithdrawTimes }}次</span>
         <span style="top: 315px; font-weight: 550">当前货柜容量情况</span>
@@ -190,7 +188,7 @@
 <script>
 import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import ReturnIcon from "../../components/ReturnIcon.vue";
-import { computed, onMounted, ref} from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import api from "../../api/index";
 import { ElNotification } from "element-plus";
@@ -399,7 +397,7 @@ export default {
         const response = await api.getStationDetailedInformation(params);
         if (response.code === 15071) {
           operatingStatus.value = response.data;
-          console.log(response);
+          //console.log(operatingStatus.value);
         } else {
           console.error("获取站点详细信息失败", response.msg);
         }
@@ -421,6 +419,7 @@ export default {
         };
         const response = await api.clearUpOvertimeContainers(params);
         if (response.code === 15081) {
+          //console.log(response.data);
           if (response.data.pageData.length === 0) {
             ElNotification({
               title: "本站点无超时货柜",

@@ -11,7 +11,7 @@
         <el-select v-model="selectedOperatingState" placeholder="Select" size="large" style="width: 240px; border: none" class="filtrate-header-selector-2">
           <el-option v-for="item in operatingStates" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-        <button class="filtrate-header-button" @click="getStationPageTable">筛选</button>
+        <button class="filtrate-header-button" @click="getFilteredStationPageTable">筛选</button>
       </div>
       <TransferCard
         :field1="'管理线下站点数'"
@@ -79,7 +79,7 @@ import TransferCard from "../../components/TransferCard.vue";
 import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import api from "../../api/index";
 import { useRouter } from "vue-router";
-import { ref, onMounted ,onActivated ,nextTick} from "vue";
+import { ref, onMounted, onActivated, nextTick } from "vue";
 
 export default {
   components: {
@@ -187,7 +187,26 @@ export default {
         console.error("获取站点列表失败", error);
       }
     };
-
+    const getFilteredStationPageTable = async () => {
+      currentPage.value = 1;
+      try {
+        const params = {
+          currentPage: currentPage.value,
+          pageSize: 10,
+          revenueRange: selectedRevenueRange.value,
+          operatingState: selectedOperatingState.value,
+        };
+        const response = await api.getStationPageTable(params);
+        if (response.code === 15041) {
+          currentPageData.value = response.data.pageData;
+          totalItems.value = response.data.totalItems;
+        } else {
+          console.error("获取站点列表失败", response.msg);
+        }
+      } catch (error) {
+        console.error("获取站点列表失败", error);
+      }
+    };
     onMounted(() => {
       nextTick(() => {
         tableRef.value.doLayout();
@@ -215,6 +234,7 @@ export default {
       handleCurrentChange,
       handleManageContainer,
       getStationPageTable,
+      getFilteredStationPageTable,
     };
   },
 };

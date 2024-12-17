@@ -11,7 +11,7 @@
         <el-select v-model="selectedOperatingState" placeholder="Select" size="large" style="width: 240px; border: none" class="filtrate-header-selector-2">
           <el-option v-for="item in operatingStates" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-        <button class="filtrate-header-button" @click="getRobotPageTable">筛选</button>
+        <button class="filtrate-header-button" @click="getFilteredRobotPageTable">筛选</button>
       </div>
       <TransferCard
         :field1="'总配备机器人数量'"
@@ -251,6 +251,35 @@ export default {
         console.error("获取机器人列表失败", error);
       }
     };
+    const getFilteredRobotPageTable = async()=>{
+      currentPage.value = 1;
+      try {
+        const params = {
+          belongStation: selectedBelongStation.value,
+          operatingState: selectedOperatingState.value,
+          currentPage: currentPage.value,
+          pageSize: 10,
+        };
+        const response = await api.getRobotPageTable(params);
+        if (response.code === 14051) {
+          currentPageData.value = response.data.pageData;
+          totalItems.value = response.data.totalItems;
+          for (let i = 0; i < currentPageData.value.length; i++) {
+            if (currentPageData.value[i].state === "busy") {
+              currentPageData.value[i].state = "忙碌";
+            } else if (currentPageData.value[i].state === "maintenance") {
+              currentPageData.value[i].state = "待维护";
+            } else {
+              currentPageData.value[i].state = "空闲";
+            }
+          }
+        } else {
+          console.error("获取机器人列表失败", response.msg);
+        }
+      } catch (error) {
+        console.error("获取机器人列表失败", error);
+      }
+    }
     const formatRobotId = (row, column, cellValue) => {
       // 确保 cellValue 是字符串
       let value = String(cellValue);
@@ -379,6 +408,7 @@ export default {
       handleCheckRobotState,
       handleCurrentChange,
       getRobotPageTable,
+      getFilteredRobotPageTable,
     };
   },
 };

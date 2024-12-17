@@ -50,16 +50,6 @@
       const pageSize = ref(10);
       const total = ref(100);
       const selectedType = ref('');
-      const mockData = ref(generateMockData());
-  
-      const fetchData = () => {
-        const start = (currentPage.value - 1) * pageSize.value;
-        const end = start + pageSize.value;
-        const filteredData = mockData.value.filter(item => !selectedType.value || item.type === selectedType.value);
-        tableData.value = filteredData.slice(start, end);
-        total.value = filteredData.length;
-      };
-  
       const handleSizeChange = (newSize) => {
         pageSize.value = newSize;
         fetchData();

@@ -495,6 +495,7 @@ export default {
       try {
         showUploadDialog.value = false;
         const params = tableData.value;
+        console.log(params);
         const response = await api.getPartsWarehoused(params);
         if (response.code === 14111) {
           ElNotification({

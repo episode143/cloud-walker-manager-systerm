@@ -85,7 +85,7 @@ export default {
         {
           pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,20}$/,
           message: "密码不符合规范",
-          trigger: "blur",
+          trigger: "change",
         },
       ],
     });
