@@ -9,7 +9,7 @@
         </el-select>
         <h2 class="filtrate-header-subfield-2"></h2>
         <el-input v-model="queryField" class="filtrate-header-selector-2" style="width: 240px; border: none" placeholder="请输入查询字段" clearable />
-        <button class="filtrate-header-button" @click="getHistoryOrderPageTable">查询</button>
+        <button class="filtrate-header-button" @click="getFilteredHistoryOrderPageTable">查询</button>
       </div>
       <TransferCard
         :field1="'历史订单总数'"
@@ -152,6 +152,26 @@ export default {
         console.error("获取历史订单列表失败", error);
       }
     };
+    const getFilteredHistoryOrderPageTable = async()=>{
+      currentPage.value = 1;
+      try {
+        const params = {
+          currentPage: currentPage.value,
+          pageSize: 10,
+          inquiryMode: selectedQueryMode.value,
+          inputField: queryField.value,
+        };
+        const response = await api.getHistoryOrderPageTable(params);
+        if (response.code === 16031) {
+          currentPageData.value = response.data.pageData;
+          totalItems.value = response.data.totalItems;
+        } else {
+          console.error("获取历史订单列表失败", response.msg);
+        }
+      } catch (error) {
+        console.error("获取历史订单列表失败", error);
+      }
+    }
     //监听页面变化
     const handleCurrentChange = (val) => {
       currentPage.value = val; // 更新当前页码
@@ -182,6 +202,7 @@ export default {
       //getTotalHistoryOrderCount,
       handleCurrentChange,
       getHistoryOrderPageTable,
+      getFilteredHistoryOrderPageTable,
     };
   },
 };

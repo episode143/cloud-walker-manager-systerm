@@ -12,7 +12,7 @@
         <el-select v-model="selectedSortOrder" placeholder="Select" size="large" style="width: 240px; border: none" class="filtrate-header-selector-2">
           <el-option v-for="item in sortOrders" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-        <button class="filtrate-header-button" @click="getUserPageTable">筛选</button>
+        <button class="filtrate-header-button" @click="getFilteredUserPageData">筛选</button>
       </div>
       <TransferCard
         :field1="'总注册用户数'"
@@ -81,7 +81,7 @@ import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import api from "../../api/index";
 import { base } from "../../api/path";
 import { useRouter } from "vue-router";
-import { ref, onMounted ,onActivated ,nextTick} from "vue";
+import { ref, onMounted, onActivated, nextTick } from "vue";
 export default {
   components: {
     TransferCard,
@@ -243,7 +243,35 @@ export default {
         console.error("获取用户列表失败", error);
       }
     };
-
+    const getFilteredUserPageData = async () => {
+      currentPage.value = 1;
+      try {
+        const params = {
+          currentPage: currentPage.value,
+          pageSize: 10,
+          userStatus: selectedOnlineState.value,
+          sortType: selectedSortOrder.value,
+        };
+        const response = await api.getUserPageTable(params);
+        if (response.code === 13061) {
+          currentPageData.value = response.data.pageData;
+          totalItems.value = response.data.totalItems;
+          for (let i = 0; i < response.data.pageData.length; i++) {
+            if (response.data.pageData[i].onlineStatus === "online") {
+              currentPageData.value[i].onlineStatus = "在线";
+            } else if (response.data.pageData[i].onlineStatus === "offline") {
+              currentPageData.value[i].onlineStatus = "离线";
+            } else {
+              currentPageData.value[i].onlineStatus = "流失";
+            }
+          }
+        } else {
+          console.error("获取用户列表失败", response.msg);
+        }
+      } catch (error) {
+        console.error("获取用户列表失败", error);
+      }
+    };
     onActivated(() => {
       nextTick(() => {
         tableRef.value.doLayout();
@@ -264,6 +292,7 @@ export default {
       handleCheckUser,
       handleCurrentChange,
       getUserPageTable,
+      getFilteredUserPageData,
     };
   },
 };

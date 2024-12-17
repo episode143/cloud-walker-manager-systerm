@@ -154,6 +154,7 @@ export default {
   },
   setup() {
     let intervalId = null;
+    let positionStatusIntervalId = null;
     const route = useRoute();
     const robotId = computed(() => route.params.robotId);
     const robotPosition = ref({
@@ -284,6 +285,12 @@ export default {
           currentTime.value = getCurrentTime();
         }, 1000);
       }
+      if (!positionStatusIntervalId) {
+        positionStatusIntervalId = setInterval(() => {
+          getRobotPosition();
+          getRobotRealTimeStatus();
+        }, 5000);
+      }
       getRobotPosition();
       getRobotRealTimeStatus();
       getRealTimeOrderState();
@@ -298,6 +305,10 @@ export default {
     onDeactivated(() => {
       if (intervalId) {
         clearInterval(intervalId);
+        intervalId = null;
+      }
+      if(positionStatusIntervalId) {
+        clearInterval(positionStatusIntervalId);
         intervalId = null;
       }
     });

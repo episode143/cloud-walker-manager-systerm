@@ -19,7 +19,7 @@
         <el-select v-model="selectedActivityPeriod" placeholder="Select" size="large" style="width: 240px; border: none; position: absolute; top: 55px; left: 370px" class="filtrate-header-selector-2">
           <el-option v-for="item in activityperiods" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-        <button class="filtrate-header-button" style="top: 55px; left: 720px" @click="getMarketingActivityPageTable">筛选</button>
+        <button class="filtrate-header-button" style="top: 55px; left: 720px" @click="getFilteredMarketingActivityPageTable">筛选</button>
       </div>
       <div style="height: 100%; width: 279px; display: flex; justify-content: center; border-radius: 8px; background-color: white; position: absolute; top: 0px; left: 910px">
         <span style="font-size: 20px; position: absolute; color: #294567; top: 15px">新增活动</span>
@@ -293,6 +293,48 @@ export default {
       }
     };
 
+    const getFilteredMarketingActivityPageTable = async () => {
+      currentPage.value = 1;
+      try {
+        const params = {
+          currentPage: currentPage.value,
+          pageSize: 7,
+          activityState: selectedActivityState.value,
+          startDate: "1949-10-01",
+        };
+        const today = new Date();
+        if(selectedActivityPeriod.value === "全部") {
+          params.startDate ="1949-10-01";
+        } else if(selectedActivityPeriod.value === "三天内") {
+          params.startDate = format(subDays(today,3),"yyyy-MM-dd");
+        } else if(selectedActivityPeriod.value === "一周内") {
+          params.startDate = format(subWeeks(today,1),"yyyy-MM-dd");
+        } else if(selectedActivityPeriod.value === "一个月内") {
+          params.startDate = format(subMonths(today,1),"yyyy-MM-dd");
+        } else if(selectedActivityPeriod.value === "三个月内") {
+          params.startDate = format(subMonths(today,3),"yyyy-MM-dd");
+        } else if(selectedActivityPeriod.value === "一年内") {
+          params.startDate = format(subYears(today,1),"yyyy-MM-dd");
+        } 
+        const response = await api.getMarketingActivityPageTable(params);
+        if (response.code === 18051) {
+          currentPageData.value = response.data.pageData;
+          for (let i = 0; i < currentPageData.value.length; i++) {
+            if (currentPageData.value[i].activityType === "ticket") {
+              currentPageData.value[i].activityType = "赠送礼券";
+            } else {
+              currentPageData.value[i].activityType = "充值有礼";
+            }
+          }
+          totalItems.value = response.data.totalItems;
+        } else {
+          console.error("获取营销活动列表失败", response.msg);
+        }
+      } catch (error) {
+        console.error("获取营销活动列表失败", error);
+      }
+    };
+
     const getOnlineMarketingActivityList = async () => {
       try {
         const response = await api.getOnlineMarketingActivityList();
@@ -349,6 +391,7 @@ export default {
       openTakeDownActivityDialog,
       cancleTakeDown,
       confirmTakeDown,
+      getFilteredMarketingActivityPageTable,
     };
   },
 };

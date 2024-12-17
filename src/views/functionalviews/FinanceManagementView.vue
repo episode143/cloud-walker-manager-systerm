@@ -11,7 +11,7 @@
         <el-select v-model="selectedSortOrder" placeholder="Select" size="large" style="width: 240px; border: none" class="filtrate-header-selector-2">
           <el-option v-for="item in sortOrders" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-        <button class="filtrate-header-button" @click="getTransactionPageTable">筛选</button>
+        <button class="filtrate-header-button" @click="getFilteredTransactionPageTable">筛选</button>
       </div>
       <TransferCard
         :field1="'总盈利金额'"
@@ -148,6 +148,26 @@ export default {
         console.error("获取流水列表失败", error);
       }
     };
+    const getFilteredTransactionPageTable = async () => {
+      currentPage.value = 1;
+      try {
+        const params = {
+          currentPage: currentPage.value,
+          pageSize: 10,
+          financeType: selectedFinanceType.value,
+          sortType: selectedSortOrder.value,
+        };
+        const response = await api.getTransactionPageTable(params);
+        if (response.code === 17041) {
+          currentPageData.value = response.data.pageData;
+          totalItems.value = response.data.totalItems;
+        } else {
+          console.error("获取流水列表失败", response.msg);
+        }
+      } catch (error) {
+        console.error("获取流水列表失败", error);
+      }
+    };
     const formatTransactionId = (row, column, cellValue) => {
       // 确保 cellValue 是字符串
       let value = String(cellValue);
@@ -191,6 +211,7 @@ export default {
       formatTransactionId,
       handleCurrentChange,
       getTransactionPageTable,
+      getFilteredTransactionPageTable,
     };
   },
 };

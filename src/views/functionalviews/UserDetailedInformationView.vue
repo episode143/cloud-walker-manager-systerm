@@ -214,11 +214,6 @@ export default {
     };
     //提交表单的内容（待完成axios内容。内含赠送礼券函数）
     const submitCouponForm = () => {
-      ElNotification({
-        title: "处理中",
-        message: "正在处理礼券赠送,请稍等...",
-        type: "info",
-      });
       couponFormRef.value.validate((valid) => {
         if (valid) {
           // 处理表单提交逻辑
@@ -256,7 +251,6 @@ export default {
           time: formatDate(today),
           endTime: formatDate(endDay),
         };
-        console.log(params);
         const res = await api.rewardUserCoupon(params);
         if (res.code === 13071) {
           ElNotification({
