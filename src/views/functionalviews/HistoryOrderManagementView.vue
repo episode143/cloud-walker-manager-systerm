@@ -32,12 +32,12 @@
           <el-table-column prop="address" label="配送地址" align="center">
             <template v-slot:default="scope">
               <el-tooltip effect="customized" :content="scope.row.address" placement="top">
-                <span class="ellipsis">{{ scope.row.address }}</span>
+                <span class="ellipsis" style="margin-top: 7px;">{{ scope.row.address }}</span>
               </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column prop="amount" label="金额" align="center"></el-table-column>
-          <el-table-column prop="discount" label="折扣/减免情况" align="center"></el-table-column>
+          <el-table-column prop="discountType" label="折扣/减免情况" align="center"></el-table-column>
           <el-table-column prop="amount" label="结算金额" align="center"></el-table-column>
         </el-table>
         <div
@@ -142,6 +142,7 @@ export default {
           inputField: queryField.value,
         };
         const response = await api.getHistoryOrderPageTable(params);
+        console.log(response);
         if (response.code === 16031) {
           currentPageData.value = response.data.pageData;
           totalItems.value = response.data.totalItems;

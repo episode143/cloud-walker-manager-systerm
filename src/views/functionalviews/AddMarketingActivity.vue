@@ -11,9 +11,9 @@
         <el-input v-model="activityTitle" style="width: 1143px; position: absolute; top: 50px; left: 20px; height: 40px; font-size: 18px" placeholder="请输入活动名称" />
 
         <h1 style="position: absolute; font-size: 18px; color: #0482ff; top: 85px; left: 20px">活动开始时间</h1>
-        <el-date-picker v-model="selectedStartTime" type="datetime" placeholder="请选择时间" style="position: absolute; top: 135px; left: 20px" />
+        <el-date-picker v-model="selectedStartTime" type="date" placeholder="请选择时间" style="position: absolute; top: 135px; left: 20px" />
         <h1 style="position: absolute; font-size: 18px; color: #0482ff; top: 85px; left: 430px">活动结束时间</h1>
-        <el-date-picker v-model="selectedEndTime" type="datetime" placeholder="请选择时间" style="position: absolute; top: 135px; left: 430px" />
+        <el-date-picker v-model="selectedEndTime" type="date" placeholder="请选择时间" style="position: absolute; top: 135px; left: 430px" />
 
         <h1 style="position: absolute; left: 20px; top: 160px; font-size: 18px; color: #0482ff">活动图概览</h1>
         <div class="background-image-example">

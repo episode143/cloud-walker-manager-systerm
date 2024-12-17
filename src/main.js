@@ -14,11 +14,11 @@ import 'echarts/lib/component/title';
 import 'echarts/lib/component/grid';
 import 'echarts/lib/component/dataZoom';
 // 在线链接使用阿里图标
-import "./assets/icons/icons.css"; 
+//import "./assets/icons/icons.css"; 
 // import "./styles/blockstyles.css"; // 自己设计的块状图标
 
 //导入本地的阿里巴巴矢量库图案
-// import "@/assets/aliconfont/confirm/iconfont.css"
+import "@/assets/aliconfont/confirm/iconfont.css"
 
 // 导入字体
 import "./assets/font/font.css"

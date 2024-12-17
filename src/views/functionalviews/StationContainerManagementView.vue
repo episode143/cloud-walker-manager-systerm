@@ -188,7 +188,7 @@
 <script>
 import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import ReturnIcon from "../../components/ReturnIcon.vue";
-import { computed, onMounted, ref } from "vue";
+import { computed, onActivated, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import api from "../../api/index";
 import { ElNotification } from "element-plus";
@@ -214,39 +214,7 @@ export default {
         return 0;
       }
     });
-    const currentPageData = ref([
-      {
-        type: "其它",
-      },
-      {
-        type: "快递",
-      },
-      {
-        type: "外卖",
-      },
-      {
-        type: "蛋糕",
-      },
-      {
-        type: "鲜花",
-      },
-
-      {
-        userId: "1",
-      },
-      {
-        userId: "1",
-      },
-      {
-        userId: "1",
-      },
-      {
-        userId: "1",
-      },
-      {
-        userId: "1",
-      },
-    ]);
+    const currentPageData = ref([]);
     const currentPage = ref(1);
     const totalItems = ref(100);
     const containerStates = ref([
@@ -379,6 +347,7 @@ export default {
             if (!currentPageData.value[i].packageType) {
               currentPageData.value[i].packageType = "无包裹";
             }
+            currentPageData.value[i].status = status2Text(currentPageData.value[i].status);
           }
         } else {
           console.error("获取货柜列表失败", response.msg);
@@ -527,11 +496,12 @@ export default {
           return '';
       }
     }
-
-
-
+    onActivated(()=>{
+      getCabinetPageTable();
+      getStationDetailedInformation();
+      getAllCabinets();
+    })
     onMounted(() => {
-      console.log("mounted");
       getCabinetPageTable();
       getStationDetailedInformation();
       getAllCabinets();

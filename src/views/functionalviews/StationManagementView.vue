@@ -31,7 +31,7 @@
           <el-table-column prop="stationPosition" label="所处位置" align="center">
             <template v-slot:default="scope">
               <el-tooltip effect="customized" :content="scope.row.stationPosition" placement="top" content-class="custom-tooltip">
-                <span class="ellipsis">{{ scope.row.stationPosition }}</span>
+                <span class="ellipsis" style="margin-top: 7px;">{{ scope.row.stationPosition }}</span>
               </el-tooltip>
             </template>
           </el-table-column>

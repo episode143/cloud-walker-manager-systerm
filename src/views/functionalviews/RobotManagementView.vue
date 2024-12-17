@@ -211,8 +211,8 @@ export default {
         router.push({ path: `/admin/robots/${robotId}/state` });
       } else {
         ElNotification({
-          title: "当前机器人空闲",
-          message: "实时状态为空闲，无法查看更加详细信息",
+          title: "当前机器人"+state,
+          message: "实时状态为"+state+"，无法查看更加详细信息",
           type: "info",
         });
       }

@@ -189,6 +189,7 @@ export default {
 
 .login-card {
   position: relative;
+  top: 20px;
   width: 800px;
   height: 430px;
   border-radius: 24px;

@@ -16,7 +16,7 @@
         <i class="iconfont" style="font-size: 32px" :class="genderIconClass" :style="genderIconColor"></i>
       </div>
       <div class="thanks-card">
-        <h1 class="thanks-statement" style="position: absolute; top: 0px; left: 30px">thank you for your companionship</h1>
+        <h1 class="thanks-statement" style="position: absolute; top: 27px; left: 27px; font-size: 40px; margin-top: 0px">白云处处长随君</h1>
         <h1 class="thanks-statement" style="position: absolute; top: 50px; left: 30px; font-size: 32px">您已陪伴阿云</h1>
         <h1 class="thanks-statement" style="position: absolute; top: 44px; left: 230px; font-size: 36px">{{ adminInformation.tenure }}天</h1>
         <i class="iconfont icon-meigui" style="font-size: 80px; position: absolute; top: 30px; left: 360px; color: white"></i>
@@ -24,32 +24,32 @@
 
       <div class="field-box-left" style="position: absolute; left: 40px; top: 200px">
         <h1>真实姓名</h1>
-        <input type="text" id="name" v-model="adminInformation.realname" :readonly="notChange" :class="{ 'readonly-state': notChange , 'custom-focus' : true }" />
+        <input type="text" id="name" v-model="adminInformation.realname" :readonly="notChange" :class="{ 'readonly-state': notChange, 'custom-focus': true }" />
       </div>
 
       <div class="field-box-left" style="position: absolute; left: 40px; top: 300px">
         <h1>出生日期</h1>
-        <input type="text" id="name" v-model="adminInformation.birthday" :readonly="notChange" :class="{ 'readonly-state': notChange , 'custom-focus' : true }" />
+        <input type="text" id="name" v-model="adminInformation.birthday" :readonly="notChange" :class="{ 'readonly-state': notChange, 'custom-focus': true }" />
       </div>
 
       <div class="field-box-left" style="position: absolute; left: 40px; top: 400px">
         <h1>所在省份</h1>
-        <input type="text" id="name" v-model="adminInformation.province" :readonly="isReadOnly" :class="{ 'readonly-state': isReadOnly , 'custom-focus' : true }" />
+        <input type="text" id="name" v-model="adminInformation.province" :readonly="isReadOnly" :class="{ 'readonly-state': isReadOnly, 'custom-focus': true }" />
       </div>
 
       <div class="field-box-right" style="position: absolute; left: 495px; top: 200px">
         <h1>联系方式/电话</h1>
-        <input type="text" id="name" v-model="adminInformation.telephone" :readonly="isReadOnly" :class="{ 'readonly-state': isReadOnly , 'custom-focus' : true }" />
+        <input type="text" id="name" v-model="adminInformation.telephone" :readonly="isReadOnly" :class="{ 'readonly-state': isReadOnly, 'custom-focus': true }" />
       </div>
 
       <div class="field-box-right" style="position: absolute; left: 495px; top: 300px">
         <h1>联系方式/邮箱</h1>
-        <input type="text" id="name" v-model="adminInformation.email" :readonly="isReadOnly" :class="{ 'readonly-state': isReadOnly , 'custom-focus' : true }" />
+        <input type="text" id="name" v-model="adminInformation.email" :readonly="isReadOnly" :class="{ 'readonly-state': isReadOnly, 'custom-focus': true }" />
       </div>
 
       <div class="field-box-right" style="position: absolute; left: 495px; top: 400px">
         <h1>常住地址</h1>
-        <input type="text" id="name" v-model="adminInformation.address" :readonly="isReadOnly" :class="{ 'readonly-state': isReadOnly , 'custom-focus' : true }" />
+        <input type="text" id="name" v-model="adminInformation.address" :readonly="isReadOnly" :class="{ 'readonly-state': isReadOnly, 'custom-focus': true }" />
       </div>
 
       <button class="change-information-button" v-show="isReadOnly" @click="toggleEdit" :style="buttonStyle">编辑信息</button>
@@ -179,14 +179,14 @@ export default {
 
     //密码规则
     const rules = {
-      oldPassword: [{ required: true, message: "请输入旧密码", trigger: "blur" }],
+      oldPassword: [{ required: true, message: "请输入旧密码", trigger: "change" }],
       newPassword1: [
-        { required: true, message: "请输入新密码", trigger: "blur" },
-        { validator: validatePassword, trigger: "blur" },
+        { required: true, message: "请输入新密码", trigger: "change" },
+        { validator: validatePassword, trigger: "change" },
       ],
       newPassword2: [
-        { required: true, message: "请再次输入新密码", trigger: "blur" },
-        { validator: validateConfirmPassword, trigger: "blur" },
+        { required: true, message: "请再次输入新密码", trigger: "change" },
+        { validator: validateConfirmPassword, trigger: "change" },
       ],
     };
 
@@ -383,6 +383,14 @@ export default {
     };
 
     const changeAdminPassword = async () => {
+      if (!checkOldPassword(changeCode.value.oldPassword)) {
+        ElNotification({
+          title: "修改失败",
+          message: "旧密码输入错误",
+          type: "error",
+        });
+        return;
+      }
       try {
         const params = {
           newPassword: changeCode.newPassword1,
@@ -536,7 +544,7 @@ export default {
 .thanks-statement {
   /* color: #2f95fc; */
   color: white;
-  font-family: thanks-field;
+  font-family: login-title;
   font-size: 24px;
 }
 .field-box-left {

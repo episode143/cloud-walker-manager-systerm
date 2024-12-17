@@ -26,17 +26,25 @@
       <div style="grid-area: robot-form" class="robot-form">
         <el-table :data="currentPageData" ref="tableRef" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" :row-style="{ height: '56px' }">
           <el-table-column prop="orderId" label="订单编号" align="center"></el-table-column>
+          <el-table-column prop="status" label="订单状态" align="center"></el-table-column>
           <el-table-column prop="orderTime" label="发起时间" align="center"></el-table-column>
           <el-table-column prop="expectedCompletionTime" label="预计完成时间" align="center"></el-table-column>
           <el-table-column prop="customer" label="订单发起方" align="center"></el-table-column>
           <el-table-column prop="address" label="配送地址" align="center">
             <template v-slot:default="scope">
               <el-tooltip effect="customized" :content="scope.row.address" placement="top">
-                <span class="ellipsis">{{ scope.row.address }}</span>
+                <span class="ellipsis" style="margin-top: 7px;">{{ scope.row.address }}</span>
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column prop="robotId" label="配送机器人编号" align="center"></el-table-column>
+          <!-- <el-table-column prop="robotId" label="配送机器人编号" align="center"></el-table-column> -->
+          <el-table-column label="配送机器人编号" align="center" width="160">
+            <template v-slot:default="scope">
+              <el-button size="default" @click="jumpToDeliverRobotFirstSight(scope.row.robotId, scope.row.status)" style="background-color: transparent; color: #03bf16; border: none; font-size: 16px"
+                >{{ formatRobotId(scope.row.robotId) }}</el-button
+              >
+            </template>
+          </el-table-column>
         </el-table>
         <div
           style="
@@ -72,6 +80,8 @@ import TransferCard from "../../components/TransferCard.vue";
 import BreadCrumbs from "../../components/BreadCrumbs.vue";
 import api from "../../api/index";
 import { ref, onMounted ,onActivated ,nextTick} from "vue";
+import router from "@/router";
+import { ElNotification } from "element-plus";
 
 export default {
   components: {
@@ -115,6 +125,17 @@ export default {
       currentPage.value = val; // 更新当前页码
       getCurrentOrderPageTable();
     };
+    const jumpToDeliverRobotFirstSight = (robotId,status) =>{
+      if(status === "正在运输"){
+        router.push({ path: `/admin/robots/${robotId}/state` });
+      } else {
+        ElNotification({
+          title: "订单待发货",
+          message: "无法查看机器人第一视角",
+          type: "info",
+        });
+      }
+    };
     //获取当前订单后端分页数据
     const getCurrentOrderPageTable = async () => {
       try {
@@ -154,7 +175,17 @@ export default {
       } catch (error) {
         console.error("获取当前订单列表失败", error);
       }
-    }
+    };
+    const formatRobotId = (cellValue) => {
+      // 确保 cellValue 是字符串
+      let value = String(cellValue);
+      // 如果长度不足 15 位，在前面补零
+      while (value.length < 7) {
+        value = "0" + value;
+      }
+      value = "ROID" + value;
+      return value;
+    };
     onMounted(() => {
       nextTick(() => {
         tableRef.value.doLayout();
@@ -180,6 +211,8 @@ export default {
       handleCurrentChange,
       getCurrentOrderPageTable,
       getFilteredOrderPageTable,
+      jumpToDeliverRobotFirstSight,
+      formatRobotId,
     };
   },
 };

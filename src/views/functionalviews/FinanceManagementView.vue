@@ -29,7 +29,7 @@
         <el-table :data="currentPageData" ref="tableRef" style="width: 100%; border-top-left-radius: 8px; border-top-right-radius: 8px" row-style="height:56px;">
           <el-table-column prop="transactionId" label="流水单号" align="center" :formatter="formatTransactionId"></el-table-column>
           <el-table-column prop="transactionTime" label="结算时间" align="center"></el-table-column>
-          <el-table-column prop="transactionType" label="收入/支出" align="center"></el-table-column>
+          <el-table-column prop="transactionType" label="支入/支出" align="center"></el-table-column>
           <el-table-column prop="description" label="流水说明" align="center"></el-table-column>
           <el-table-column prop="amount" label="流水金额" align="center"></el-table-column>
           <el-table-column prop="counterpartyType" label="对接方" align="center"></el-table-column>
@@ -87,8 +87,8 @@ export default {
         label: "全部",
       },
       {
-        value: "收入",
-        label: "收入",
+        value: "支入",
+        label: "支入",
       },
       {
         value: "支出",

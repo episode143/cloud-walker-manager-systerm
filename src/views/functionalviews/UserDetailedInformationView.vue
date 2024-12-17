@@ -46,14 +46,14 @@
               position: absolute;
               left: 370px;
               background-color: transparent;
-              border: 5px solid #f8fbf8d4;
+              border: 5px solid white;
               top: 28px;
               display: flex;
               justify-content: center;
               align-items: center;
             "
           >
-            <i class="iconfont icon-gufengxiangyunyunduo40" style="font-size: 63px; position: absolute; left: 18px; color: #f8fbf8d4"></i>
+            <i class="iconfont icon-gufengxiangyunyunduo40" style="font-size: 63px; position: absolute; left: 18px; color: white"></i>
           </div>
           <button class="gift-button" @click="couponDialogVisible = true">赠送礼券</button>
         </div>

@@ -99,48 +99,7 @@ export default {
     //总数据大小
     const totalItems = ref(100);
     //获取的表格的数据
-    const currentPageData = ref([
-      {
-        userId: "1",
-        avatar: "0.png",
-      },
-      {
-        userId: "1",
-        avatar: "1.jpg",
-      },
-      {
-        userId: "1",
-        avatar: "2.jpg",
-      },
-      {
-        userId: "1",
-        avatar: "3.jpg",
-      },
-      {
-        userId: "1",
-        avatar: "4.jpg",
-      },
-      {
-        userId: "1",
-        avatar: "5.jpg",
-      },
-      {
-        userId: "1",
-        avatar: "6.jpg",
-      },
-      {
-        userId: "1",
-        avatar: "7.png",
-      },
-      {
-        userId: "1",
-        avatar: "8.png",
-      },
-      {
-        userId: "1",
-        avatar: "9.jpg",
-      },
-    ]);
+    const currentPageData = ref([]);
     //过滤的类型
     const onlineState = ref([
       {
@@ -154,10 +113,6 @@ export default {
       {
         value: "offline",
         label: "离线",
-      },
-      {
-        value: "away",
-        label: "流失",
       },
     ]);
     //选择过滤的类型
